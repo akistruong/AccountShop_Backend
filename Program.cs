@@ -1,4 +1,5 @@
 using AccountShop.Models;
+using static Google.Protobuf.Compiler.CodeGeneratorResponse.Types;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -15,7 +16,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.Use(async (context,next) =>
+{
+    try
+    {
+        await next(context);
+    }
+    catch(Exception ex) { 
+    Console.WriteLine(ex);
+        context.Response.StatusCode = 500;  
+    }
+}); 
 app.UseHttpsRedirection();
 app.UseRouting();   
 app.UseAuthorization();
