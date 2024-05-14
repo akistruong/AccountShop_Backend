@@ -12,4 +12,8 @@ public partial class Orderdetail
     public int? OdtQty { get; set; }
 
     public decimal? OdtPrice { get; set; }
+
+    public virtual TblOrder Order { get; set; } = null!;
+
+    public virtual Product Product { get; set; } = null!;
 }
