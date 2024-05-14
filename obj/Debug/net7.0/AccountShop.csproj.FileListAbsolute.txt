@@ -243,3 +243,4 @@ C:\Users\LENOVO\Desktop\AccountShop\backend\AccountShop\AccountShop\AccountShop\
 C:\Users\LENOVO\Desktop\AccountShop\backend\AccountShop\AccountShop\AccountShop\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\LENOVO\Desktop\AccountShop\backend\AccountShop\AccountShop\AccountShop\bin\Debug\net7.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\LENOVO\Desktop\AccountShop\backend\AccountShop\AccountShop\AccountShop\obj\Debug\net7.0\AccountShop.sourcelink.json
+C:\Users\LENOVO\Desktop\AccountShop\backend\AccountShop\AccountShop\AccountShop\bin\Debug\net7.0\AccountShop.staticwebassets.runtime.json
