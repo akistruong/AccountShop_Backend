@@ -12,6 +12,7 @@ namespace AccountShop.Areas.Admin.Controllers
     public class Category : Controller
     {
         AccountShopContext context = DatabaseInstance.GetInstance();
+       
         [HttpGet]
         public IActionResult Index()
         {
