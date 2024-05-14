@@ -23,6 +23,7 @@ namespace AccountShop.Areas.Admin.Controllers
             try
             {
                 var result = context.Products.Add(product);
+                context.SaveChanges();
                 return result != null ? Ok() : NotFound();
             }
             catch (Exception ex)
@@ -36,6 +37,7 @@ namespace AccountShop.Areas.Admin.Controllers
             try
             {
                 var result = context.Products.Update(product);
+                context.SaveChanges();
                 return result != null ? Ok() : NotFound();
             }
             catch (Exception ex)
@@ -53,6 +55,7 @@ namespace AccountShop.Areas.Admin.Controllers
                 {
 
                     var result = context.Products.Remove(product);
+                    context.SaveChanges();
                     return Ok(result);
                 }
                 return NotFound();
