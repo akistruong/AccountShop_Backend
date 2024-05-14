@@ -1,0 +1,20 @@
+﻿<Project>
+  <ItemGroup>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\source\products\images\SP01\photo-1540224871915-bc8ffb782bdf.avif))">
+      <SourceType>Package</SourceType>
+      <SourceId>AccountShop</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/AccountShop</BasePath>
+      <RelativePath>source/products/images/SP01/photo-1540224871915-bc8ffb782bdf.avif</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\source\products\images\SP01\photo-1540224871915-bc8ffb782bdf.avif))</OriginalItemSpec>
+    </StaticWebAsset>
+  </ItemGroup>
+</Project>

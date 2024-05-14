@@ -1,11 +1,39 @@
 {
   "Version": 1,
-  "Hash": "JZMyvq2xxZzSYEWGO5/Twoa7uGZS5k1jqIrgeSv1xu8=",
+  "Hash": "vU8ZYLl7c57Tbs/qW4jrzR54ady0xo869zCgMUUJ3R8=",
   "Source": "AccountShop",
   "BasePath": "_content/AccountShop",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "AccountShop\\wwwroot",
+      "Source": "AccountShop",
+      "ContentRoot": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\wwwroot\\",
+      "BasePath": "_content/AccountShop",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\wwwroot\\source\\products\\images\\SP01\\photo-1540224871915-bc8ffb782bdf.avif",
+      "SourceId": "AccountShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\wwwroot\\",
+      "BasePath": "_content/AccountShop",
+      "RelativePath": "source/products/images/SP01/photo-1540224871915-bc8ffb782bdf.avif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\source\\products\\images\\SP01\\photo-1540224871915-bc8ffb782bdf.avif"
+    }
+  ]
 }
