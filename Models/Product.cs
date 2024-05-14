@@ -23,6 +23,8 @@ public partial class Product
 
     public virtual Category? Category { get; set; }
 
+    public virtual ICollection<Orderdetail> Orderdetails { get; set; } = new List<Orderdetail>();
+
     public virtual ICollection<TblImage> TblImages { get; set; } = new List<TblImage>();
 
     public virtual ICollection<Variant> Variants { get; set; } = new List<Variant>();

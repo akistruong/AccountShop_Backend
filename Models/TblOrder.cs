@@ -29,6 +29,8 @@ public partial class TblOrder
 
     public virtual Coupon? Coupon { get; set; }
 
+    public virtual ICollection<Orderdetail> Orderdetails { get; set; } = new List<Orderdetail>();
+
     public virtual Paymentmethod? PaymentMethod { get; set; }
 
     public virtual TblUser? UsernameNavigation { get; set; }
