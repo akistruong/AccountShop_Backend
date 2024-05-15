@@ -1,5 +1,5 @@
-﻿using AccountShop.Areas.Admin.Interfaces;
-using AccountShop.DataLayer;
+﻿using AccountShop.Areas.Admin.DataLayer;
+using AccountShop.Areas.Admin.Interfaces;
 using AccountShop.Models;
 
 namespace AccountShop.Areas.Admin.Business_Layer
