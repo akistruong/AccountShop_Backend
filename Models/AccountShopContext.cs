@@ -191,7 +191,7 @@ public partial class AccountShopContext : DbContext
 
             entity.HasOne(d => d.Product).WithMany(p => p.TblImages)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("fk_image_product");
+                .HasConstraintName("fk_image_product").OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<TblOrder>(entity =>
