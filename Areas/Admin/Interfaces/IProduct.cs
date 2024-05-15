@@ -8,4 +8,5 @@
         public Models.Product InsertProduct(Models.Product product);
         public bool DeleteProduct(string productID);
     }
+
 }

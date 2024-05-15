@@ -1,35 +1,36 @@
 ﻿using AccountShop.Helper;
 using AccountShop.Models;
 
-namespace AccountShop.DataLayer
+namespace AccountShop.Areas.Admin.DataLayer
 {
     public class CategoryDAO
     {
         AccountShopContext context = DatabaseInstance.GetInstance();
         public List<Category> Select()
         {
-            var categories = context.Categories.ToList();   
+            var categories = context.Categories.ToList();
             return categories;
         }
-        public Category GetCategory(int id) {
+        public Category Select(int id)
+        {
             return context.Categories.FirstOrDefault(x => x.CategoryId == id);
         }
-        public Models.Category Insert(Models.Category category)
+        public Category Insert(Category category)
         {
             var result = context.Categories.Add(category);
             context.SaveChanges();
             return category;
         }
-        public Models.Category Update(Models.Category category)
+        public Category Update(Category category)
         {
-            var result = context.Categories.Update(category);
+            context.Entry(category).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             context.SaveChanges();
             return category;
         }
         public bool Delete(int id)
         {
             var category = context.Categories.FirstOrDefault(x => x.CategoryId == id);
-            if(category == null)
+            if (category == null)
             {
                 return false;
             }

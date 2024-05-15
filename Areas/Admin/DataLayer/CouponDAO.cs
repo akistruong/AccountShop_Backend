@@ -11,7 +11,7 @@ namespace AccountShop.Areas.Admin.DataLayer
             return context.Coupons.ToList();    
         }
 
-        public Models.Coupon SelectCoupon(string couponId) {
+        public Models.Coupon Select(string couponId) {
             return context.Coupons.FirstOrDefault(x => x.CouponId == couponId);
         }
         public Models.Coupon Insert(Models.Coupon coupon) { 
@@ -20,7 +20,7 @@ namespace AccountShop.Areas.Admin.DataLayer
             return coupon;
         }
         public Models.Coupon Update(Models.Coupon coupon) { 
-            var result = context.Coupons.Update(coupon);    
+            context.Entry(coupon).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             context.SaveChanges();
             return coupon;  
         }
