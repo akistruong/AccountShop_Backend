@@ -1,4 +1,5 @@
-﻿using AccountShop.Helper;
+﻿using AccountShop.Areas.Admin.Business_Layer;
+using AccountShop.Helper;
 using AccountShop.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,13 +11,17 @@ namespace AccountShop.Areas.Admin.Controllers
     [Route("api/[area]/[controller]")]
     public class Coupon : ControllerBase
     {
-        AccountShopContext context = DatabaseInstance.GetInstance();
+        CouponBUS couponBUS;
+        public Coupon()
+        {
+            couponBUS = new CouponBUS();    
+        }
         [HttpGet]
         public IActionResult Get()
         {
             try
             {
-                var coupons = context.Coupons;
+                var coupons = couponBUS.Get();
                 return Ok(coupons);
             }catch (Exception ex)
             {
@@ -27,7 +32,7 @@ namespace AccountShop.Areas.Admin.Controllers
         public IActionResult Get(string? id) {
             try
             {
-                  var coupon = context.Coupons.FirstOrDefault(x=>x.CouponId == id);
+                  var coupon = couponBUS.Get(id);    
                 return coupon!=null? Ok(coupon):NotFound();
             }catch (Exception ex)
             {
@@ -39,8 +44,7 @@ namespace AccountShop.Areas.Admin.Controllers
         {
             try
             {
-                context.Coupons.Add(coupon);
-                context.SaveChanges();
+                couponBUS.Insert(coupon);
                 return Ok();
             }
             catch (Exception ex)
@@ -53,8 +57,7 @@ namespace AccountShop.Areas.Admin.Controllers
         {
             try
             {
-                context.Entry(coupon).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                context.SaveChanges();
+                couponBUS.Update(coupon);   
                 return Ok(coupon);
             }catch(Exception ex) {
                 throw ex;
@@ -66,14 +69,8 @@ namespace AccountShop.Areas.Admin.Controllers
 
             try
             {
-                var coupon = context.Coupons.FirstOrDefault(x => x.CouponId == id);
-                if (coupon != null)
-                {
-                    context.Coupons.Remove(coupon);
-                    context.SaveChanges();
-                return Ok();
-                }
-                return NotFound(); 
+                var result = couponBUS.Delete(id);  
+                return result==false?NotFound(): Ok();
             }catch (Exception ex)
             {
                 throw ex;

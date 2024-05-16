@@ -1,4 +1,5 @@
-﻿using AccountShop.Helper;
+﻿using AccountShop.Areas.Admin.Business_Layer;
+using AccountShop.Helper;
 using AccountShop.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,19 +11,38 @@ namespace AccountShop.Areas.Admin.Controllers
     [Route("api/[area]/[controller]")]
     public class PaymentMethod : Controller
     {
-        AccountShopContext context = DatabaseInstance.GetInstance();
-        [HttpGet]   
-        public IActionResult Index()
+        PaymentMethodBUS paymentMethodBUS;
+        public PaymentMethod()
+        {
+            paymentMethodBUS = new PaymentMethodBUS();
+        }
+        [HttpGet]
+        public IActionResult Get()
         {
             try
             {
-                var methods = context.Paymentmethods;
+                var methods = paymentMethodBUS.Select();
                 return Ok(methods);
             }
             catch (Exception ex)
             {
 
-                return NotFound();  
+                throw ex;
+            }
+            return View();
+        }
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                var methods = paymentMethodBUS.Select(id);
+                return Ok(methods);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
             return View();
         }
@@ -31,11 +51,10 @@ namespace AccountShop.Areas.Admin.Controllers
         {
             try
             {
-                var result = context.Paymentmethods.Add(method);
-                context.SaveChanges();
+                var result = paymentMethodBUS.InsertToDatabase(method);
                 return Ok(result);  
             }catch (Exception ex) { 
-                return NotFound(ex);
+                throw ex;
             }
         }
         [HttpPut]
@@ -43,13 +62,12 @@ namespace AccountShop.Areas.Admin.Controllers
         {
             try
             {
-                context.Entry(method).State = EntityState.Modified;
-                context.SaveChanges();
-                return Ok();
+                var result = paymentMethodBUS.UpdateToDatabase(method);
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return NotFound(ex);
+                throw ex;
             }
         }
         [HttpDelete]
@@ -57,14 +75,12 @@ namespace AccountShop.Areas.Admin.Controllers
         {
             try
             {
-                var payment = context.Paymentmethods.FirstOrDefault(x => x.MethodId == id);
-                var result = context.Paymentmethods.Remove(payment);
-                context.SaveChanges();  
-                return Ok();
+                var result = paymentMethodBUS.Delete(id);
+                return result==true?Ok():NotFound();
             }
             catch (Exception ex)
             {
-                return NotFound();
+                throw ex;
             }
         }
     }

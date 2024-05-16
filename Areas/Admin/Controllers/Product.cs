@@ -1,4 +1,5 @@
-﻿using AccountShop.Helper;
+﻿using AccountShop.Areas.Admin.Business_Layer;
+using AccountShop.Helper;
 using AccountShop.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,12 +10,15 @@ namespace AccountShop.Areas.Admin.Controllers
     [Route("api/[area]/[controller]")]
     public class Product : ControllerBase
     {
-        AccountShopContext context = DatabaseInstance.GetInstance();
+        ProductBUS _productBUS;
+        public Product() {
+            _productBUS = new ProductBUS(); 
+        }
         [HttpGet]
         public IActionResult Index()
         {
 
-            var products = context.Products;
+            var products = _productBUS.GetAllProducts();
             return Ok(products);
         }
         [HttpPost]
@@ -22,8 +26,7 @@ namespace AccountShop.Areas.Admin.Controllers
         {
             try
             {
-                var result = context.Products.Add(product);
-                context.SaveChanges();
+                var result = _productBUS.InsertProduct(product);
                 return result != null ? Ok() : NotFound();
             }
             catch (Exception ex)
@@ -36,8 +39,7 @@ namespace AccountShop.Areas.Admin.Controllers
         {
             try
             {
-                var result = context.Products.Update(product);
-                context.SaveChanges();
+                var result = _productBUS.PutProduct(product);
                 return result != null ? Ok() : NotFound();
             }
             catch (Exception ex)
@@ -50,15 +52,8 @@ namespace AccountShop.Areas.Admin.Controllers
         {
             try
             {
-                var product = context.Products.FirstOrDefault(x => x.ProductId == id);
-                if (product != null)
-                {
-
-                    var result = context.Products.Remove(product);
-                    context.SaveChanges();
-                    return Ok(result);
-                }
-                return NotFound();
+               var result = _productBUS.DeleteProduct(id);
+                return result == true ? Ok() : NotFound();
             }
             catch (Exception ex)
             {

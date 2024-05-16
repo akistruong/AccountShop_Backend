@@ -4,7 +4,13 @@ using static Google.Protobuf.Compiler.CodeGeneratorResponse.Types;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+).AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+}); ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -27,6 +33,7 @@ app.Use(async (context,next) =>
         context.Response.StatusCode = 500;  
     }
 }); 
+
 app.UseHttpsRedirection();
 app.UseRouting();   
 app.UseAuthorization();

@@ -1,8 +1,5 @@
-﻿using AccountShop.Helper;
-using AccountShop.Models;
+﻿using AccountShop.Areas.Admin.Business_Layer;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata.Ecma335;
 
 namespace AccountShop.Areas.Admin.Controllers
 {
@@ -11,17 +8,32 @@ namespace AccountShop.Areas.Admin.Controllers
     [Route("api/[area]/[controller]")]
     public class Category : Controller
     {
-        AccountShopContext context = DatabaseInstance.GetInstance();
-       
+        CategoryBUS categoryBUS;
+        public Category() {
+            categoryBUS = new CategoryBUS();
+        }   
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Get()
         {
             try
             {
-                var categorys = context.Categories; 
+                var categorys = categoryBUS.Get(); 
                 return Ok(categorys);
             }
             catch (Exception ex) {
+                return NotFound();
+            }
+        }
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                var category = categoryBUS.Get(id);
+                return Ok(category);
+            }
+            catch (Exception ex)
+            {
                 return NotFound();
             }
         }
@@ -30,8 +42,7 @@ namespace AccountShop.Areas.Admin.Controllers
         {
             try
             {
-                var result = context.Categories.Add(category);
-                context.SaveChanges();
+                var result = categoryBUS.InsertToDatabase(category);
                 return Ok(result);
             }catch (Exception ex) {
                 return NotFound();
@@ -41,15 +52,12 @@ namespace AccountShop.Areas.Admin.Controllers
         public IActionResult Put(Models.Category category) {
             try
             {
-
-                context.Entry(category).State = EntityState.Modified;
-                context.SaveChanges();
-                return Ok(category);
+                var result = categoryBUS.UpdateToDatabase(category);               
+                return Ok(result);
             }
             catch(Exception ex)
             {
                 return NotFound(ex);    
-
             }
         }
         [HttpDelete]
@@ -57,8 +65,7 @@ namespace AccountShop.Areas.Admin.Controllers
         {
             try
             {
-                var cat = context.Categories.FirstOrDefault(x => x.CategoryId == id);
-              var result=  context.Categories.Remove(cat);
+              var result= categoryBUS.Delete(id);
                 return Ok();
             }
             catch (Exception ex) {

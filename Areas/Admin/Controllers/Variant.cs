@@ -1,4 +1,5 @@
-﻿using AccountShop.Helper;
+﻿using AccountShop.Areas.Admin.Business_Layer;
+using AccountShop.Helper;
 using AccountShop.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,26 +10,35 @@ namespace AccountShop.Areas.Admin.Controllers
     [Route("api/[area]/[controller]")]
     public class Variant : Controller
     {
-        AccountShopContext context = DatabaseInstance.GetInstance();
-        [HttpGet]
-        public IActionResult Index()
+        VariantBUS variantBUS;
+        public Variant()
         {
-            var variants = context.Variants;
+            variantBUS = new VariantBUS();  
+        }
+        [HttpGet]
+        public IActionResult Get()
+        {
+            var variants = variantBUS.Get();
             return Ok(variants);    
         }
         [HttpGet("{id}")]
-        public IActionResult Detail(int id)
+        public IActionResult Get(int id)
         {
-            var variant = context.Variants.FirstOrDefault(x => x.VariantId == id);
+            var variant = variantBUS.Get(id);
             return variant != null ? Ok(variant) : NotFound(); 
+        }
+        [HttpGet("GetByProduct/{productID}")]
+        public IActionResult GetByProduct(string productID)
+        {
+            var variant = variantBUS.GetByProduct(productID);
+            return variant != null ? Ok(variant) : NotFound();
         }
         [HttpPost]
         public IActionResult Post(Models.Variant variant)
         {
             try
             {
-                var result = context.Variants.Add(variant);
-                context.SaveChanges();
+                var result = variantBUS.InsertToDatabase(variant);
                 return Ok(result);
             }catch (Exception ex) { 
                 throw ex;   
@@ -39,9 +49,8 @@ namespace AccountShop.Areas.Admin.Controllers
         {
             try
             {
-                context.Entry(variant).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                context.SaveChanges();
-                return Ok();
+                var result = variantBUS.UpdateToDatabase(variant);
+                return Ok(result);
             }catch (Exception ex)
             {
                 throw ex;
@@ -51,14 +60,8 @@ namespace AccountShop.Areas.Admin.Controllers
         public IActionResult Delete(int id) {
             try
             {
-                var variant = context.Variants.FirstOrDefault(x => x.VariantId == id);
-                if(variant!=null)
-                {
-                    context.Variants.Remove(variant);
-                    context.SaveChanges() ; 
-                    return Ok();
-                }
-                return NotFound();  
+                var variant =variantBUS.Delete(id);
+                return variant==null? NotFound():Ok();  
             }
             catch (Exception ex)
             {
