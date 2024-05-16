@@ -9,10 +9,6 @@ namespace AccountShop.Helper
             try
             {
                 var filePath = Path.GetTempFileName();
-                //if (!Directory.Exists(path))
-                //{
-                //    Directory.CreateDirectory(folder);
-                //}
                 using (var stream = System.IO.File.Create(path))
                 {
                     await file.CopyToAsync(stream);

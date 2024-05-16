@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "vU8ZYLl7c57Tbs/qW4jrzR54ady0xo869zCgMUUJ3R8=",
+  "Hash": "8+PqRUbIJxfMl570VnF22Vqj65eqMJRz2ayplFnmyfw=",
   "Source": "AccountShop",
   "BasePath": "_content/AccountShop",
   "Mode": "Default",
@@ -34,6 +34,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\source\\products\\images\\SP01\\photo-1540224871915-bc8ffb782bdf.avif"
+    },
+    {
+      "Identity": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\wwwroot\\source\\products\\images\\SP02\\photo-1540224871915-bc8ffb782bdf.avif",
+      "SourceId": "AccountShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\wwwroot\\",
+      "BasePath": "_content/AccountShop",
+      "RelativePath": "source/products/images/SP02/photo-1540224871915-bc8ffb782bdf.avif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\source\\products\\images\\SP02\\photo-1540224871915-bc8ffb782bdf.avif"
     }
   ]
 }

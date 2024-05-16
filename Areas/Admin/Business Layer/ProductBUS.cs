@@ -1,5 +1,6 @@
 ﻿using AccountShop.Areas.Admin.DataLayer;
 using AccountShop.Areas.Admin.Interfaces;
+using AccountShop.Helper;
 using AccountShop.Models;
 
 namespace AccountShop.Areas.Admin.Business_Layer
@@ -11,10 +12,16 @@ namespace AccountShop.Areas.Admin.Business_Layer
         {
             _productDAO = new ProductDAO();
         }
-        public bool DeleteProduct(string productID)
+        public async Task<bool> DeleteProduct(string productID)
         {
             try
             {
+                var product  =_productDAO.SelectByID(productID);    
+                if (product != null&&product.ProductImage!=null) {
+                var path = "wwwroot/source/products/"+product.ProductId+"//"+product.ProductImage;
+                var fileManager = new FileManager();
+                    await fileManager.Delete(path);
+                }
                 var result = _productDAO.Delete(productID);
                 return result;
             }catch (Exception ex) {

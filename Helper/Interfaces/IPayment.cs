@@ -1,4 +1,5 @@
-﻿namespace AccountShop.Helper.Interfaces
+﻿
+namespace AccountShop.Helper.Interfaces
 {
     public abstract class IPayment
     {

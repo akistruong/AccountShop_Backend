@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\source\\products\\images\\SP01\\photo-1540224871915-bc8ffb782bdf.avif"
     },
     {
+      "Id": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\wwwroot\\source\\products\\images\\SP02\\photo-1540224871915-bc8ffb782bdf.avif",
+      "PackagePath": "staticwebassets\\source\\products\\images\\SP02\\photo-1540224871915-bc8ffb782bdf.avif"
+    },
+    {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.AccountShop.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
