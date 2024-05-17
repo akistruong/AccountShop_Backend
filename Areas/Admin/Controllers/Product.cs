@@ -48,11 +48,11 @@ namespace AccountShop.Areas.Admin.Controllers
             }
         }
         [HttpDelete]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
             try
             {
-               var result = _productBUS.DeleteProduct(id);
+               var result =await  _productBUS.DeleteProduct(id);
                 return result == true ? Ok() : NotFound();
             }
             catch (Exception ex)

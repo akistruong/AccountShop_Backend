@@ -5,13 +5,15 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace AccountShop.Areas.Admin.Business_Layer
 {
-    public class UploadBUS : IUpload
+    public class FileBUS : IUpload
     {
         ProductDAO productDAO;
         ImageDAO imageDAO;
-        public UploadBUS() {
+        FileManager fileManager;    
+        public FileBUS() {
             productDAO = new ProductDAO();
-            imageDAO = new ImageDAO();  
+            imageDAO = new ImageDAO();
+            fileManager = new FileManager();    
         }
         public async Task<bool> UploadProductImage(IFormFile file, string productID)
         {
@@ -25,8 +27,8 @@ namespace AccountShop.Areas.Admin.Business_Layer
                 Directory.CreateDirectory(folder);
             }
             var path = "wwwroot//source//products//images//" + productID.Trim() + "//" + file.FileName;
-            bool result = await Uploader.Upload(file, path);
-            product.ProductImage = path;
+             await fileManager.Upload(file,path);
+            product.ProductImage = file.FileName;
             productDAO.Update(product);
             return true;
         }
@@ -46,9 +48,9 @@ namespace AccountShop.Areas.Admin.Business_Layer
             foreach (var file in files)
             {
                 var path = "wwwroot//source//products//images//" + productID.Trim() + "//" + file.FileName;
-                bool result = await Uploader.Upload(file, path);
+                await fileManager.Upload(file, path);
                 var image = new Models.TblImage();
-                image.ImageUrl = path;
+                image.ImageUrl = file.FileName;
                 image.ProductId = productID;
                 imageDAO.Update(image);
             }

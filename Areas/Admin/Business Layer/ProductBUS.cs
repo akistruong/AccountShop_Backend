@@ -1,20 +1,29 @@
 ﻿using AccountShop.Areas.Admin.DataLayer;
 using AccountShop.Areas.Admin.Interfaces;
+using AccountShop.Helper;
 using AccountShop.Models;
 
 namespace AccountShop.Areas.Admin.Business_Layer
 {
     public class ProductBUS : IProduct
     {
+        FileManager fileManager;
         private ProductDAO _productDAO;
         public ProductBUS()
         {
             _productDAO = new ProductDAO();
+            fileManager = new FileManager();    
         }
-        public bool DeleteProduct(string productID)
+        public async Task<bool> DeleteProduct(string productID)
         {
             try
             {
+                var product  =_productDAO.SelectByID(productID);    
+                if (product != null&&product.ProductImage!=null) {
+                var path = "wwwroot/source/products/images/"+product.ProductId+"/"+product.ProductImage;
+                var fileManager = new FileManager();
+                    await fileManager.Delete(path);
+                }
                 var result = _productDAO.Delete(productID);
                 return result;
             }catch (Exception ex) {

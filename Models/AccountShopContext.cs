@@ -295,7 +295,7 @@ public partial class AccountShopContext : DbContext
 
             entity.HasOne(d => d.Product).WithMany(p => p.Variants)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("fk_variant_product");
+                .HasConstraintName("fk_variant_product").OnDelete(DeleteBehavior.Cascade);
         });
 
         OnModelCreatingPartial(modelBuilder);

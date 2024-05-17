@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "vU8ZYLl7c57Tbs/qW4jrzR54ady0xo869zCgMUUJ3R8=",
+  "Hash": "f2sJwG8FR7rbuTsHEax052iul4Zem5USkn88AC/Xzl8=",
   "Source": "AccountShop",
   "BasePath": "_content/AccountShop",
   "Mode": "Default",
@@ -17,12 +17,12 @@
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\wwwroot\\source\\products\\images\\SP01\\photo-1540224871915-bc8ffb782bdf.avif",
+      "Identity": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\wwwroot\\source\\products\\images\\SP01\\441283020_2108927076159260_5514583331457144250_n.jpg",
       "SourceId": "AccountShop",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\wwwroot\\",
       "BasePath": "_content/AccountShop",
-      "RelativePath": "source/products/images/SP01/photo-1540224871915-bc8ffb782bdf.avif",
+      "RelativePath": "source/products/images/SP01/441283020_2108927076159260_5514583331457144250_n.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -33,7 +33,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\source\\products\\images\\SP01\\photo-1540224871915-bc8ffb782bdf.avif"
+      "OriginalItemSpec": "wwwroot\\source\\products\\images\\SP01\\441283020_2108927076159260_5514583331457144250_n.jpg"
     }
   ]
 }
