@@ -281,6 +281,7 @@ public partial class AccountShopContext : DbContext
             entity.HasIndex(e => e.ProductId, "fk_variant_product");
 
             entity.Property(e => e.VariantId).HasColumnName("variant_id");
+            entity.Property(e => e.VariantName).HasColumnType("nvarchar(50)");
             entity.Property(e => e.ProductId)
                 .HasMaxLength(10)
                 .IsFixedLength()

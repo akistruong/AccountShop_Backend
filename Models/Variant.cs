@@ -8,6 +8,7 @@ public partial class Variant
     public int VariantId { get; set; }
 
     public string? ProductId { get; set; }
+    public string ?VariantName { get; set; }
 
     public decimal? VariantPrice { get; set; }
 
