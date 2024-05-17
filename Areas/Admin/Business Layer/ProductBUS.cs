@@ -7,10 +7,12 @@ namespace AccountShop.Areas.Admin.Business_Layer
 {
     public class ProductBUS : IProduct
     {
+        FileManager fileManager;
         private ProductDAO _productDAO;
         public ProductBUS()
         {
             _productDAO = new ProductDAO();
+            fileManager = new FileManager();    
         }
         public async Task<bool> DeleteProduct(string productID)
         {
@@ -18,7 +20,7 @@ namespace AccountShop.Areas.Admin.Business_Layer
             {
                 var product  =_productDAO.SelectByID(productID);    
                 if (product != null&&product.ProductImage!=null) {
-                var path = "wwwroot/source/products/"+product.ProductId+"//"+product.ProductImage;
+                var path = "wwwroot/source/products/images/"+product.ProductId+"/"+product.ProductImage;
                 var fileManager = new FileManager();
                     await fileManager.Delete(path);
                 }
