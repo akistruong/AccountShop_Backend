@@ -50,7 +50,7 @@ namespace AccountShop.Areas.Admin.Business_Layer
                 var path = "wwwroot//source//products//images//" + productID.Trim() + "//" + file.FileName;
                 await fileManager.Upload(file, path);
                 var image = new Models.TblImage();
-                image.ImageUrl = path;
+                image.ImageUrl = file.FileName;
                 image.ProductId = productID;
                 imageDAO.Update(image);
             }
