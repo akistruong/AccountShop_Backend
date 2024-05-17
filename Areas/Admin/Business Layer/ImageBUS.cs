@@ -17,7 +17,8 @@ namespace AccountShop.Areas.Admin.Business_Layer
 
         public TblImage InsertToDatabase(TblImage image)
         {
-            return imageDAO.Insert(image); 
+            imageDAO.Insert(image);
+            return image;
         }
 
         public List<TblImage> Select()

@@ -1,8 +1,8 @@
 ﻿namespace AccountShop.Helper.Interfaces
 {
-    public abstract class IUpload
+    public interface IUpload
     {
-        public abstract Task<bool> UploadFile(IFormFile file,string path);
-        public abstract Task<bool> UploadMutipleFile(List<IFormFile> files,string path);
+        public  Task<bool> Upload(IFormFile file,string path);
+        public  Task<bool> Upload(List<IFormFile> files,string path);
     }
 }

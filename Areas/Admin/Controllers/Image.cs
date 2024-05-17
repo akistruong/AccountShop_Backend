@@ -40,41 +40,6 @@ namespace AccountShop.Areas.Admin.Controllers
                 throw ex;
             }
         }
-        [HttpPost]
-        public async Task<IActionResult> UploadImages(List<IFormFile> files, string productID)
-        {
-            var trans = context.Database.BeginTransaction();
-            try
-            {
-                var product = context.Products.FirstOrDefault(x=>x.ProductId== productID);  
-                if (product == null)
-                {
-                    return NotFound();
-                }
-                var folder = "wwwroot//source//products//images//" + productID.Trim();
-                if (!Directory.Exists(folder))
-                {
-                    Directory.CreateDirectory(folder);
-                }
-                foreach (var file in files)
-                {
-               var path = "wwwroot//source//products//images//" + productID.Trim() + "//"+file.FileName;
-                bool result = await Uploader.Upload(file, path);
-                    var image = new Models.TblImage();
-                    image.ImageUrl = path;
-                    image.ProductId = productID;    
-                    context.TblImages.Add(image);
-                    
-                }
-                context.SaveChanges();
-                trans.Commit();
-                return Ok(files);
-            }
-            catch (Exception ex) {
-                trans.Rollback();
-                throw ex;
-            }
-        }
         [HttpDelete]
         public IActionResult Delete(int id)
         {
