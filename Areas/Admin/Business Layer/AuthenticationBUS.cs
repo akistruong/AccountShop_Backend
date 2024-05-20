@@ -3,6 +3,7 @@ using AccountShop.Areas.Admin.Interfaces;
 using AccountShop.Helper;
 using AccountShop.Models;
 using Microsoft.AspNetCore.Authorization;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System.Security.Claims;
 
 
@@ -23,25 +24,27 @@ namespace AccountShop.Areas.Admin.Business_Layer
 
         public Dtos.AuthResponseDto Login(TblUser user)
         {
+            JwtHelper jwt = new JwtHelper();
             var User = UserDAO.Select(user.Username);
             if (User != null)
             {
             var isPassword = HashHelper.Decode(user.Pwd, User.Pwd);
                 if(isPassword)
                 {
-                    JwtHelper jwt = new JwtHelper();
+                    
                     jwt.Generate(user.Username);
                 }
             }
             Dtos.AuthResponseDto response = new Dtos.AuthResponseDto();
             response.code = "200";
             response.message = "Login success";
-            response.key = HashHelper.Encode(user.Username);    
+            response.key = jwt.Generate(user.Username); 
             return response;
         }
 
         public Dtos.AuthResponseDto Register(TblUser user)
         {
+            JwtHelper jwt = new JwtHelper();
             var User = UserDAO.Select(user.Username);
             Dtos.AuthResponseDto response = new Dtos.AuthResponseDto();
             if (User == null)
@@ -51,7 +54,7 @@ namespace AccountShop.Areas.Admin.Business_Layer
                 
                 response.code = "200";
                 response.message = "Login success";
-                response.key = HashHelper.Encode(user.Username);
+                response.key = jwt.Generate(user.Username); response.key = jwt.Generate(user.Username);
                 return response;
             }
             response.code = "404";

@@ -1,23 +1,34 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace AccountShop.Helper
 {
     public class JwtHelper
     {
-            private string secureKey = "this is a very secure key";
+            private string secureKey = "$11$gZiyrvDsjDchQJpFpDN1t.UulusuFeizdaMP3cE1Kxu0CLQuunXT6";
         public string Generate(string id)
         {
 
+            string JWTKey = secureKey;
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTKey));
+            var signingCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(
+                        securityKey, SecurityAlgorithms.HmacSha256Signature);
+            var claims = new List<Claim>
+           {
+                new Claim(ClaimTypes.NameIdentifier,"abc"),
+            };
 
-            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secureKey));
-            var credentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
-            var header = new JwtHeader(credentials);
-            var payload = new JwtPayload(id.ToString(), null, null, null, DateTime.Today.AddDays(1)); // 1 day
-            var securityToken = new JwtSecurityToken(header, payload);
+            var token = new JwtSecurityToken(JWTKey,
+              JWTKey,
+              claims: claims,
+              expires: DateTime.Now.AddDays(1),
+              
+              signingCredentials: signingCredentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(securityToken);
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
         public JwtSecurityToken Verify(string jwt)
         {

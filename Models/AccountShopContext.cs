@@ -265,7 +265,7 @@ public partial class AccountShopContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("email");
             entity.Property(e => e.Pwd)
-                .HasMaxLength(20)
+                .HasMaxLength(256)
                 .HasColumnName("pwd");
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")

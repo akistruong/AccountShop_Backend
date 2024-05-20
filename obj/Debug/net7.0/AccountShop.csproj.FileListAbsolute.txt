@@ -248,7 +248,6 @@ C:\Users\LENOVO\Desktop\AccountShop\backend\AccountShop\AccountShop\AccountShop\
 C:\Users\LENOVO\Desktop\AccountShop\backend\AccountShop\AccountShop\AccountShop\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\LENOVO\Desktop\AccountShop\backend\AccountShop\AccountShop\AccountShop\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
 C:\Users\LENOVO\Desktop\AccountShop\backend\AccountShop\AccountShop\AccountShop\bin\Debug\net7.0\BCrypt.Net-Next.dll
-C:\Users\LENOVO\Desktop\AccountShop\backend\AccountShop\AccountShop\AccountShop\bin\Debug\net7.0\JWT.dll
 C:\Users\LENOVO\Desktop\AccountShop\backend\AccountShop\AccountShop\AccountShop\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\LENOVO\Desktop\AccountShop\backend\AccountShop\AccountShop\AccountShop\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
 C:\Users\LENOVO\Desktop\AccountShop\backend\AccountShop\AccountShop\AccountShop\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll

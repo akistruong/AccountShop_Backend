@@ -17,6 +17,7 @@ namespace AccountShop.Areas.Admin.Controllers
         }
         [HttpGet]
         [Authorize]
+        
         public IActionResult User()
         {
             return Ok();

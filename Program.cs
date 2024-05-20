@@ -17,11 +17,13 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
+        ValidateIssuer = false,
+        ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("text"))
+        ValidIssuer = "https://localhost:44337/",
+        ValidAudience = "https://localhost:44337/",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("$11$gZiyrvDsjDchQJpFpDN1t.UulusuFeizdaMP3cE1Kxu0CLQuunXT6"))
     };
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
