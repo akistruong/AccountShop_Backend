@@ -12,7 +12,7 @@ namespace AccountShop.Areas.Admin.DataLayer
         }
         public Models.TblUser Select(string id)
         {
-            return context.TblUsers.Find(id)?? new TblUser();   
+            return context.TblUsers.Find(id);   
         }
         public Models.TblUser Insert(Models.TblUser user) { 
             context.TblUsers.Add(user); 
