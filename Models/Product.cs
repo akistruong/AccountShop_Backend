@@ -16,16 +16,17 @@ public partial class Product
     public string? ProductDesciption { get; set; }
 
     public string? ProductSlug { get; set; }
+    public string ?RootID { get; set; }
 
     public int? CategoryId { get; set; }
 
     public string? ProductContent { get; set; }
 
     public virtual Category? Category { get; set; }
-
-    public virtual ICollection<Orderdetail> Orderdetails { get; set; } = new List<Orderdetail>();
+    public virtual Product? ProductRoot { get; set; }
 
     public virtual ICollection<TblImage> TblImages { get; set; } = new List<TblImage>();
 
     public virtual ICollection<Variant> Variants { get; set; } = new List<Variant>();
+    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }
