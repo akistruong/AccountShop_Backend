@@ -21,9 +21,13 @@ public partial class Product
 
     public string? ProductContent { get; set; }
 
+    public string? RootId { get; set; }
+
     public virtual Category? Category { get; set; }
 
-    public virtual ICollection<Orderdetail> Orderdetails { get; set; } = new List<Orderdetail>();
+    public virtual ICollection<Product> InverseRoot { get; set; } = new List<Product>();
+
+    public virtual Product? Root { get; set; }
 
     public virtual ICollection<TblImage> TblImages { get; set; } = new List<TblImage>();
 

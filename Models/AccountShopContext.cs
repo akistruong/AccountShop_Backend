@@ -19,6 +19,8 @@ public partial class AccountShopContext : DbContext
 
     public virtual DbSet<Coupon> Coupons { get; set; }
 
+    public virtual DbSet<Efmigrationshistory> Efmigrationshistories { get; set; }
+
     public virtual DbSet<Orderdetail> Orderdetails { get; set; }
 
     public virtual DbSet<Paymentmethod> Paymentmethods { get; set; }
@@ -33,9 +35,11 @@ public partial class AccountShopContext : DbContext
 
     public virtual DbSet<Variant> Variants { get; set; }
 
+    public virtual DbSet<VariantAttribute> VariantAttributes { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySQL("server=127.0.0.1;uid=root;pwd=123456;database=AccountShop");
+        => optionsBuilder.UseMySQL("server=127.0.0.1;uid=root;pwd=123456;database=AccountShop;Allow User Variables=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -88,19 +92,28 @@ public partial class AccountShopContext : DbContext
                 .HasColumnName("updatedAT");
         });
 
+        modelBuilder.Entity<Efmigrationshistory>(entity =>
+        {
+            entity.HasKey(e => e.MigrationId).HasName("PRIMARY");
+
+            entity.ToTable("__efmigrationshistory");
+
+            entity.Property(e => e.MigrationId).HasMaxLength(150);
+            entity.Property(e => e.ProductVersion).HasMaxLength(32);
+        });
+
         modelBuilder.Entity<Orderdetail>(entity =>
         {
-            entity.HasKey(e => new { e.OrderId, e.ProductId }).HasName("PRIMARY");
+            entity.HasKey(e => new { e.OrderId, e.VariantId }).HasName("PRIMARY");
 
             entity.ToTable("orderdetail");
 
-            entity.HasIndex(e => e.ProductId, "fk_orderdt_product");
+            entity.HasIndex(e => e.VariantId, "IDX_Ordt_variant");
+
+            entity.HasIndex(e => e.OrderId, "IX_orderdetail_order_id");
 
             entity.Property(e => e.OrderId).HasColumnName("order_id");
-            entity.Property(e => e.ProductId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("product_id");
+            entity.Property(e => e.VariantId).HasColumnName("VariantID");
             entity.Property(e => e.OdtPrice)
                 .HasPrecision(10)
                 .HasColumnName("odt_price");
@@ -111,10 +124,10 @@ public partial class AccountShopContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_orderdt_order");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.Orderdetails)
-                .HasForeignKey(d => d.ProductId)
+            entity.HasOne(d => d.Variant).WithMany(p => p.Orderdetails)
+                .HasForeignKey(d => d.VariantId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_orderdt_product");
+                .HasConstraintName("fk_orderdt_variant");
         });
 
         modelBuilder.Entity<Paymentmethod>(entity =>
@@ -137,6 +150,8 @@ public partial class AccountShopContext : DbContext
             entity.HasKey(e => e.ProductId).HasName("PRIMARY");
 
             entity.ToTable("product");
+
+            entity.HasIndex(e => e.RootId, "IX_product_RootID");
 
             entity.HasIndex(e => e.CategoryId, "fk_product_category");
 
@@ -163,10 +178,18 @@ public partial class AccountShopContext : DbContext
             entity.Property(e => e.ProductSlug)
                 .HasColumnType("text")
                 .HasColumnName("product_slug");
+            entity.Property(e => e.RootId)
+                .HasMaxLength(10)
+                .IsFixedLength()
+                .HasColumnName("RootID");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("fk_product_category");
+
+            entity.HasOne(d => d.Root).WithMany(p => p.InverseRoot)
+                .HasForeignKey(d => d.RootId)
+                .HasConstraintName("fk_product_root");
         });
 
         modelBuilder.Entity<TblImage>(entity =>
@@ -191,7 +214,8 @@ public partial class AccountShopContext : DbContext
 
             entity.HasOne(d => d.Product).WithMany(p => p.TblImages)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("fk_image_product").OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("fk_image_product");
         });
 
         modelBuilder.Entity<TblOrder>(entity =>
@@ -222,7 +246,7 @@ public partial class AccountShopContext : DbContext
                 .HasColumnName("ischeckout");
             entity.Property(e => e.OrderPrice)
                 .HasPrecision(10)
-                .HasDefaultValueSql("'0'")
+                .HasDefaultValueSql("'0.00'")
                 .HasColumnName("order_price");
             entity.Property(e => e.OrderQty).HasColumnName("order_qty");
             entity.Property(e => e.OrderStatus).HasColumnName("order_status");
@@ -281,11 +305,11 @@ public partial class AccountShopContext : DbContext
             entity.HasIndex(e => e.ProductId, "fk_variant_product");
 
             entity.Property(e => e.VariantId).HasColumnName("variant_id");
-            entity.Property(e => e.VariantName).HasColumnType("nvarchar(50)");
             entity.Property(e => e.ProductId)
                 .HasMaxLength(10)
                 .IsFixedLength()
                 .HasColumnName("product_id");
+            entity.Property(e => e.VariantName).HasMaxLength(50);
             entity.Property(e => e.VariantPrice)
                 .HasPrecision(10)
                 .HasColumnName("variant_price");
@@ -296,7 +320,26 @@ public partial class AccountShopContext : DbContext
 
             entity.HasOne(d => d.Product).WithMany(p => p.Variants)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("fk_variant_product").OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("fk_variant_product");
+        });
+
+        modelBuilder.Entity<VariantAttribute>(entity =>
+        {
+            entity.HasKey(e => e.AttributeId).HasName("PRIMARY");
+
+            entity.ToTable("variant_attribute");
+
+            entity.HasIndex(e => e.VariantId, "IX_variant_attribute_VariantId");
+
+            entity.HasIndex(e => e.AttributeId, "idx_attribute");
+
+            entity.Property(e => e.Key).HasMaxLength(50);
+            entity.Property(e => e.Value).HasMaxLength(50);
+
+            entity.HasOne(d => d.Variant).WithMany(p => p.VariantAttributes)
+                .HasForeignKey(d => d.VariantId)
+                .HasConstraintName("fk_attribute_variant");
         });
 
         OnModelCreatingPartial(modelBuilder);
