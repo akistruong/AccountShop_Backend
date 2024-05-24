@@ -3,6 +3,7 @@ using System;
 using AccountShop.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AccountShop.Migrations
 {
     [DbContext(typeof(AccountShopContext))]
-    partial class AccountShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240524014725_order_detail_PrimaryKey")]
+    partial class order_detail_PrimaryKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,8 +104,7 @@ namespace AccountShop.Migrations
                         .HasColumnType("int")
                         .HasColumnName("odt_qty");
 
-                    b.HasKey("VariantID", "OrderId")
-                        .HasName("PRIMARY");
+                    b.HasKey("VariantID", "OrderId");
 
                     b.HasIndex("OrderId");
 
@@ -172,6 +174,7 @@ namespace AccountShop.Migrations
                         .HasColumnName("product_slug");
 
                     b.Property<string>("RootID")
+                        .IsRequired()
                         .HasColumnType("char(10)");
 
                     b.HasKey("ProductId")
@@ -351,33 +354,6 @@ namespace AccountShop.Migrations
                     b.ToTable("variant", (string)null);
                 });
 
-            modelBuilder.Entity("AccountShop.Models.VariantAttribute", b =>
-                {
-                    b.Property<int>("AttributeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<int>("VariantId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AttributeId")
-                        .HasName("PRIMARY");
-
-                    b.HasIndex("VariantId");
-
-                    b.HasIndex(new[] { "AttributeId" }, "idx_attribute");
-
-                    b.ToTable("variant_attribute", (string)null);
-                });
-
             modelBuilder.Entity("AccountShop.Models.Category", b =>
                 {
                     b.HasOne("AccountShop.Models.Category", "CategoryRoot")
@@ -417,6 +393,8 @@ namespace AccountShop.Migrations
                     b.HasOne("AccountShop.Models.Product", "ProductRoot")
                         .WithMany("Products")
                         .HasForeignKey("RootID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_product_root");
 
                     b.Navigation("Category");
@@ -470,18 +448,6 @@ namespace AccountShop.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("AccountShop.Models.VariantAttribute", b =>
-                {
-                    b.HasOne("AccountShop.Models.Variant", "Variant")
-                        .WithMany("VariantAttributes")
-                        .HasForeignKey("VariantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_attribute_variant");
-
-                    b.Navigation("Variant");
-                });
-
             modelBuilder.Entity("AccountShop.Models.Category", b =>
                 {
                     b.Navigation("InverseCategoryRoot");
@@ -521,8 +487,6 @@ namespace AccountShop.Migrations
             modelBuilder.Entity("AccountShop.Models.Variant", b =>
                 {
                     b.Navigation("Orderdetails");
-
-                    b.Navigation("VariantAttributes");
                 });
 #pragma warning restore 612, 618
         }

@@ -17,4 +17,7 @@ public partial class Variant
     public int? VariantQty { get; set; }
 
     public virtual Product? Product { get; set; }
+    public virtual ICollection<Orderdetail> Orderdetails { get; set; } = new List<Orderdetail>();
+    public virtual ICollection<VariantAttribute> VariantAttributes { get; set; } = new List<VariantAttribute>();
+
 }

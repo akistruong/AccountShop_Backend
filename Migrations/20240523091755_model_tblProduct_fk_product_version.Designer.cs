@@ -3,6 +3,7 @@ using System;
 using AccountShop.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AccountShop.Migrations
 {
     [DbContext(typeof(AccountShopContext))]
-    partial class AccountShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240523091755_model_tblProduct_fk_product_version")]
+    partial class model_tblProduct_fk_product_version
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,13 +86,14 @@ namespace AccountShop.Migrations
 
             modelBuilder.Entity("AccountShop.Models.Orderdetail", b =>
                 {
-                    b.Property<int>("VariantID")
-                        .HasColumnType("int");
-
                     b.Property<int>("OrderId")
-                        .HasMaxLength(10)
                         .HasColumnType("int")
-                        .HasColumnName("order_id")
+                        .HasColumnName("order_id");
+
+                    b.Property<string>("ProductId")
+                        .HasMaxLength(10)
+                        .HasColumnType("char(10)")
+                        .HasColumnName("product_id")
                         .IsFixedLength();
 
                     b.Property<decimal?>("OdtPrice")
@@ -101,12 +105,15 @@ namespace AccountShop.Migrations
                         .HasColumnType("int")
                         .HasColumnName("odt_qty");
 
-                    b.HasKey("VariantID", "OrderId")
+                    b.Property<int>("VariantID")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderId", "ProductId")
                         .HasName("PRIMARY");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("VariantID");
 
-                    b.HasIndex(new[] { "VariantID" }, "IDX_Ordt_variant");
+                    b.HasIndex(new[] { "ProductId" }, "fk_orderdt_product");
 
                     b.ToTable("orderdetail", (string)null);
                 });
@@ -171,13 +178,13 @@ namespace AccountShop.Migrations
                         .HasColumnType("text")
                         .HasColumnName("product_slug");
 
-                    b.Property<string>("RootID")
+                    b.Property<string>("ProductVersionID")
                         .HasColumnType("char(10)");
 
                     b.HasKey("ProductId")
                         .HasName("PRIMARY");
 
-                    b.HasIndex("RootID");
+                    b.HasIndex("ProductVersionID");
 
                     b.HasIndex(new[] { "CategoryId" }, "fk_product_category");
 
@@ -343,6 +350,9 @@ namespace AccountShop.Migrations
                         .HasColumnType("text")
                         .HasColumnName("variant_slug");
 
+                    b.Property<int?>("VariantStock")
+                        .HasColumnType("int");
+
                     b.HasKey("VariantId")
                         .HasName("PRIMARY");
 
@@ -357,11 +367,7 @@ namespace AccountShop.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Value")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
@@ -373,9 +379,7 @@ namespace AccountShop.Migrations
 
                     b.HasIndex("VariantId");
 
-                    b.HasIndex(new[] { "AttributeId" }, "idx_attribute");
-
-                    b.ToTable("variant_attribute", (string)null);
+                    b.ToTable("variantAttribute", (string)null);
                 });
 
             modelBuilder.Entity("AccountShop.Models.Category", b =>
@@ -396,7 +400,13 @@ namespace AccountShop.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_orderdt_order");
 
-                    b.HasOne("AccountShop.Models.Variant", "Variant")
+                    b.HasOne("AccountShop.Models.Product", "Product")
+                        .WithMany("Orderdetails")
+                        .HasForeignKey("ProductId")
+                        .IsRequired()
+                        .HasConstraintName("fk_orderdt_product");
+
+                    b.HasOne("AccountShop.Models.Variant", "productDetail")
                         .WithMany("Orderdetails")
                         .HasForeignKey("VariantID")
                         .IsRequired()
@@ -404,7 +414,9 @@ namespace AccountShop.Migrations
 
                     b.Navigation("Order");
 
-                    b.Navigation("Variant");
+                    b.Navigation("Product");
+
+                    b.Navigation("productDetail");
                 });
 
             modelBuilder.Entity("AccountShop.Models.Product", b =>
@@ -414,14 +426,14 @@ namespace AccountShop.Migrations
                         .HasForeignKey("CategoryId")
                         .HasConstraintName("fk_product_category");
 
-                    b.HasOne("AccountShop.Models.Product", "ProductRoot")
+                    b.HasOne("AccountShop.Models.Product", "ProductVersion")
                         .WithMany("Products")
-                        .HasForeignKey("RootID")
-                        .HasConstraintName("fk_product_root");
+                        .HasForeignKey("ProductVersionID")
+                        .HasConstraintName("fk_product_version");
 
                     b.Navigation("Category");
 
-                    b.Navigation("ProductRoot");
+                    b.Navigation("ProductVersion");
                 });
 
             modelBuilder.Entity("AccountShop.Models.TblImage", b =>
@@ -473,11 +485,11 @@ namespace AccountShop.Migrations
             modelBuilder.Entity("AccountShop.Models.VariantAttribute", b =>
                 {
                     b.HasOne("AccountShop.Models.Variant", "Variant")
-                        .WithMany("VariantAttributes")
+                        .WithMany("VariantAttribute")
                         .HasForeignKey("VariantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_attribute_variant");
+                        .HasConstraintName("fk_variant_attribute");
 
                     b.Navigation("Variant");
                 });
@@ -501,6 +513,8 @@ namespace AccountShop.Migrations
 
             modelBuilder.Entity("AccountShop.Models.Product", b =>
                 {
+                    b.Navigation("Orderdetails");
+
                     b.Navigation("Products");
 
                     b.Navigation("TblImages");
@@ -522,7 +536,7 @@ namespace AccountShop.Migrations
                 {
                     b.Navigation("Orderdetails");
 
-                    b.Navigation("VariantAttributes");
+                    b.Navigation("VariantAttribute");
                 });
 #pragma warning restore 612, 618
         }
