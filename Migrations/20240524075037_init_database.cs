@@ -7,12 +7,25 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace AccountShop.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class init_database : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "__efmigrationshistory",
+                columns: table => new
+                {
+                    MigrationId = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false),
+                    ProductVersion = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.MigrationId);
+                })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -73,7 +86,7 @@ namespace AccountShop.Migrations
                 columns: table => new
                 {
                     username = table.Column<string>(type: "char(30)", fixedLength: true, maxLength: 30, nullable: false),
-                    pwd = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true),
+                    pwd = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     createdAT = table.Column<DateTime>(type: "datetime", nullable: true),
                     updatedAT = table.Column<DateTime>(type: "datetime", nullable: true),
                     email = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
@@ -95,7 +108,8 @@ namespace AccountShop.Migrations
                     product_desciption = table.Column<string>(type: "text", nullable: true),
                     product_slug = table.Column<string>(type: "text", nullable: true),
                     category_id = table.Column<int>(type: "int", nullable: true),
-                    product_content = table.Column<string>(type: "text", nullable: true)
+                    product_content = table.Column<string>(type: "text", nullable: true),
+                    RootID = table.Column<string>(type: "char(10)", fixedLength: true, maxLength: 10, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -105,6 +119,11 @@ namespace AccountShop.Migrations
                         column: x => x.category_id,
                         principalTable: "category",
                         principalColumn: "category_id");
+                    table.ForeignKey(
+                        name: "fk_product_root",
+                        column: x => x.RootID,
+                        principalTable: "product",
+                        principalColumn: "product_id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -118,7 +137,7 @@ namespace AccountShop.Migrations
                     updatedAT = table.Column<DateTime>(type: "datetime", nullable: true),
                     deletedAT = table.Column<DateTime>(type: "datetime", nullable: true),
                     order_qty = table.Column<int>(type: "int", nullable: true),
-                    order_price = table.Column<decimal>(type: "decimal(10,2)", precision: 10, nullable: true, defaultValueSql: "'0'"),
+                    order_price = table.Column<decimal>(type: "decimal(10,2)", precision: 10, nullable: true, defaultValueSql: "'0.00'"),
                     order_status = table.Column<bool>(type: "tinyint(1)", nullable: true),
                     payment_method_id = table.Column<int>(type: "int", nullable: true),
                     coupon_id = table.Column<string>(type: "char(10)", fixedLength: true, maxLength: 10, nullable: true),
@@ -177,7 +196,8 @@ namespace AccountShop.Migrations
                     product_id = table.Column<string>(type: "char(10)", fixedLength: true, maxLength: 10, nullable: true),
                     variant_price = table.Column<decimal>(type: "decimal(10,2)", precision: 10, nullable: true),
                     variant_slug = table.Column<string>(type: "text", nullable: true),
-                    variant_qty = table.Column<int>(type: "int", nullable: true)
+                    variant_qty = table.Column<int>(type: "int", nullable: true),
+                    VariantName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -186,7 +206,8 @@ namespace AccountShop.Migrations
                         name: "fk_variant_product",
                         column: x => x.product_id,
                         principalTable: "product",
-                        principalColumn: "product_id");
+                        principalColumn: "product_id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -194,24 +215,46 @@ namespace AccountShop.Migrations
                 name: "orderdetail",
                 columns: table => new
                 {
+                    VariantID = table.Column<int>(type: "int", nullable: false),
                     order_id = table.Column<int>(type: "int", nullable: false),
-                    product_id = table.Column<string>(type: "char(10)", fixedLength: true, maxLength: 10, nullable: false),
                     odt_qty = table.Column<int>(type: "int", nullable: true),
                     odt_price = table.Column<decimal>(type: "decimal(10,2)", precision: 10, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PRIMARY", x => new { x.order_id, x.product_id });
+                    table.PrimaryKey("PRIMARY", x => new { x.order_id, x.VariantID });
                     table.ForeignKey(
                         name: "fk_orderdt_order",
                         column: x => x.order_id,
                         principalTable: "tbl_order",
                         principalColumn: "order_id");
                     table.ForeignKey(
-                        name: "fk_orderdt_product",
-                        column: x => x.product_id,
-                        principalTable: "product",
-                        principalColumn: "product_id");
+                        name: "fk_orderdt_variant",
+                        column: x => x.VariantID,
+                        principalTable: "variant",
+                        principalColumn: "variant_id");
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "variant_attribute",
+                columns: table => new
+                {
+                    AttributeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Key = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    Value = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    VariantId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.AttributeId);
+                    table.ForeignKey(
+                        name: "fk_attribute_variant",
+                        column: x => x.VariantId,
+                        principalTable: "variant",
+                        principalColumn: "variant_id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -221,14 +264,24 @@ namespace AccountShop.Migrations
                 column: "category_root_id");
 
             migrationBuilder.CreateIndex(
-                name: "fk_orderdt_product",
+                name: "IDX_Ordt_variant",
                 table: "orderdetail",
-                column: "product_id");
+                column: "VariantID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_orderdetail_order_id",
+                table: "orderdetail",
+                column: "order_id");
 
             migrationBuilder.CreateIndex(
                 name: "fk_product_category",
                 table: "product",
                 column: "category_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_product_RootID",
+                table: "product",
+                column: "RootID");
 
             migrationBuilder.CreateIndex(
                 name: "fk_image_product",
@@ -254,11 +307,24 @@ namespace AccountShop.Migrations
                 name: "fk_variant_product",
                 table: "variant",
                 column: "product_id");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_attribute",
+                table: "variant_attribute",
+                column: "AttributeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_variant_attribute_VariantId",
+                table: "variant_attribute",
+                column: "VariantId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "__efmigrationshistory");
+
             migrationBuilder.DropTable(
                 name: "orderdetail");
 
@@ -266,13 +332,13 @@ namespace AccountShop.Migrations
                 name: "tbl_image");
 
             migrationBuilder.DropTable(
-                name: "variant");
+                name: "variant_attribute");
 
             migrationBuilder.DropTable(
                 name: "tbl_order");
 
             migrationBuilder.DropTable(
-                name: "product");
+                name: "variant");
 
             migrationBuilder.DropTable(
                 name: "coupon");
@@ -282,6 +348,9 @@ namespace AccountShop.Migrations
 
             migrationBuilder.DropTable(
                 name: "tbl_user");
+
+            migrationBuilder.DropTable(
+                name: "product");
 
             migrationBuilder.DropTable(
                 name: "category");

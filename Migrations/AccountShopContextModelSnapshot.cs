@@ -81,16 +81,32 @@ namespace AccountShop.Migrations
                     b.ToTable("coupon", (string)null);
                 });
 
+            modelBuilder.Entity("AccountShop.Models.Efmigrationshistory", b =>
+                {
+                    b.Property<string>("MigrationId")
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
+
+                    b.Property<string>("ProductVersion")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32)");
+
+                    b.HasKey("MigrationId")
+                        .HasName("PRIMARY");
+
+                    b.ToTable("__efmigrationshistory", (string)null);
+                });
+
             modelBuilder.Entity("AccountShop.Models.Orderdetail", b =>
                 {
-                    b.Property<int>("VariantID")
-                        .HasColumnType("int");
-
                     b.Property<int>("OrderId")
-                        .HasMaxLength(10)
                         .HasColumnType("int")
-                        .HasColumnName("order_id")
-                        .IsFixedLength();
+                        .HasColumnName("order_id");
+
+                    b.Property<int>("VariantId")
+                        .HasColumnType("int")
+                        .HasColumnName("VariantID");
 
                     b.Property<decimal?>("OdtPrice")
                         .HasPrecision(10)
@@ -101,12 +117,12 @@ namespace AccountShop.Migrations
                         .HasColumnType("int")
                         .HasColumnName("odt_qty");
 
-                    b.HasKey("VariantID", "OrderId")
+                    b.HasKey("OrderId", "VariantId")
                         .HasName("PRIMARY");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex(new[] { "VariantId" }, "IDX_Ordt_variant");
 
-                    b.HasIndex(new[] { "VariantID" }, "IDX_Ordt_variant");
+                    b.HasIndex(new[] { "OrderId" }, "IX_orderdetail_order_id");
 
                     b.ToTable("orderdetail", (string)null);
                 });
@@ -171,13 +187,16 @@ namespace AccountShop.Migrations
                         .HasColumnType("text")
                         .HasColumnName("product_slug");
 
-                    b.Property<string>("RootID")
-                        .HasColumnType("char(10)");
+                    b.Property<string>("RootId")
+                        .HasMaxLength(10)
+                        .HasColumnType("char(10)")
+                        .HasColumnName("RootID")
+                        .IsFixedLength();
 
                     b.HasKey("ProductId")
                         .HasName("PRIMARY");
 
-                    b.HasIndex("RootID");
+                    b.HasIndex(new[] { "RootId" }, "IX_product_RootID");
 
                     b.HasIndex(new[] { "CategoryId" }, "fk_product_category");
 
@@ -246,7 +265,7 @@ namespace AccountShop.Migrations
                         .HasPrecision(10)
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("order_price")
-                        .HasDefaultValueSql("'0'");
+                        .HasDefaultValueSql("'0.00'");
 
                     b.Property<int?>("OrderQty")
                         .HasColumnType("int")
@@ -328,7 +347,8 @@ namespace AccountShop.Migrations
                         .IsFixedLength();
 
                     b.Property<string>("VariantName")
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<decimal?>("VariantPrice")
                         .HasPrecision(10)
@@ -359,10 +379,12 @@ namespace AccountShop.Migrations
 
                     b.Property<string>("Key")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("Value")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
                     b.Property<int>("VariantId")
@@ -371,7 +393,7 @@ namespace AccountShop.Migrations
                     b.HasKey("AttributeId")
                         .HasName("PRIMARY");
 
-                    b.HasIndex("VariantId");
+                    b.HasIndex(new[] { "VariantId" }, "IX_variant_attribute_VariantId");
 
                     b.HasIndex(new[] { "AttributeId" }, "idx_attribute");
 
@@ -398,7 +420,7 @@ namespace AccountShop.Migrations
 
                     b.HasOne("AccountShop.Models.Variant", "Variant")
                         .WithMany("Orderdetails")
-                        .HasForeignKey("VariantID")
+                        .HasForeignKey("VariantId")
                         .IsRequired()
                         .HasConstraintName("fk_orderdt_variant");
 
@@ -414,14 +436,14 @@ namespace AccountShop.Migrations
                         .HasForeignKey("CategoryId")
                         .HasConstraintName("fk_product_category");
 
-                    b.HasOne("AccountShop.Models.Product", "ProductRoot")
-                        .WithMany("Products")
-                        .HasForeignKey("RootID")
+                    b.HasOne("AccountShop.Models.Product", "Root")
+                        .WithMany("InverseRoot")
+                        .HasForeignKey("RootId")
                         .HasConstraintName("fk_product_root");
 
                     b.Navigation("Category");
 
-                    b.Navigation("ProductRoot");
+                    b.Navigation("Root");
                 });
 
             modelBuilder.Entity("AccountShop.Models.TblImage", b =>
@@ -501,7 +523,7 @@ namespace AccountShop.Migrations
 
             modelBuilder.Entity("AccountShop.Models.Product", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("InverseRoot");
 
                     b.Navigation("TblImages");
 
