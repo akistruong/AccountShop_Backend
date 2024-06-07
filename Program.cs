@@ -6,7 +6,15 @@ using static Google.Protobuf.Compiler.CodeGeneratorResponse.Types;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
-
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                      });
+});
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 ).AddJsonOptions(options =>
@@ -14,6 +22,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
 }); ;
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -47,8 +56,8 @@ app.Use(async (context,next) =>
     Console.WriteLine(ex);
         context.Response.StatusCode = 500;  
     }
-}); 
-
+});
+app.UseCors(MyAllowSpecificOrigins);
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();

@@ -322,6 +322,10 @@ public partial class AccountShopContext : DbContext
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("fk_variant_product");
+            entity.HasOne(d => d.VariantRoot).WithMany(p => p.Children)
+               .HasForeignKey(d => d.VariantRootID)
+               .OnDelete(DeleteBehavior.Cascade)
+               .HasConstraintName("fk_variant_children");
         });
 
         modelBuilder.Entity<VariantAttribute>(entity =>
