@@ -15,18 +15,6 @@ namespace AccountShop.Migrations
             migrationBuilder.AlterDatabase()
                 .Annotation("MySQL:Charset", "utf8mb4");
 
-            migrationBuilder.CreateTable(
-                name: "__efmigrationshistory",
-                columns: table => new
-                {
-                    MigrationId = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false),
-                    ProductVersion = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PRIMARY", x => x.MigrationId);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "category",
