@@ -11,9 +11,9 @@ namespace AccountShop.Areas.Admin.Controllers
     public class Variant : Controller
     {
         VariantBUS variantBUS;
-        public Variant()
+        public Variant(AccountShopContext _context)
         {
-            variantBUS = new VariantBUS();  
+            variantBUS = new VariantBUS(_context);  
         }
         [HttpGet]
         public IActionResult Get()

@@ -11,8 +11,8 @@ namespace AccountShop.Areas.Admin.Controllers
     public class Product : ControllerBase
     {
         ProductBUS _productBUS;
-        public Product() {
-            _productBUS = new ProductBUS(); 
+        public Product(AccountShopContext context) {
+            _productBUS = new ProductBUS(context); 
         }
         [HttpGet]
         public IActionResult Index()

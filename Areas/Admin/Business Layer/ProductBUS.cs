@@ -9,9 +9,10 @@ namespace AccountShop.Areas.Admin.Business_Layer
     {
         FileManager fileManager;
         private ProductDAO _productDAO;
-        public ProductBUS()
+
+        public ProductBUS(AccountShopContext _context)
         {
-            _productDAO = new ProductDAO();
+            _productDAO = new ProductDAO(_context);
             fileManager = new FileManager();    
         }
         public async Task<bool> DeleteProduct(string productID)

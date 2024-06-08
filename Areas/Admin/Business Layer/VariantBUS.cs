@@ -7,8 +7,9 @@ namespace AccountShop.Areas.Admin.Business_Layer
     public class VariantBUS : IVariant
     {
         VariantDAO variantDAO;
-        public VariantBUS() { 
-            variantDAO = new VariantDAO();
+
+        public VariantBUS(AccountShopContext _context) { 
+            variantDAO = new VariantDAO(_context);
         }
         public bool Delete(int id)
         {

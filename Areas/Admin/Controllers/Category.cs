@@ -1,4 +1,5 @@
 ﻿using AccountShop.Areas.Admin.Business_Layer;
+using AccountShop.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AccountShop.Areas.Admin.Controllers
@@ -9,8 +10,8 @@ namespace AccountShop.Areas.Admin.Controllers
     public class Category : Controller
     {
         CategoryBUS categoryBUS;
-        public Category() {
-            categoryBUS = new CategoryBUS();
+        public Category(AccountShopContext context) {
+            categoryBUS = new CategoryBUS(context);
         }   
         [HttpGet]
         public IActionResult Get()

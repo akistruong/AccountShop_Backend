@@ -5,6 +5,7 @@ using System.Text;
 using static Google.Protobuf.Compiler.CodeGeneratorResponse.Types;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddTransient<AccountShopContext>();
 // Add services to the container.
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
@@ -38,6 +39,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+ builder.Services.AddTransient<AccountShopContext>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

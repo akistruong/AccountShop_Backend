@@ -6,7 +6,13 @@ namespace AccountShop.Areas.Admin.DataLayer
 {
     public class ProductDAO
     {
-        AccountShopContext context = DatabaseInstance.GetInstance();
+        AccountShopContext context ;
+
+        public ProductDAO(AccountShopContext context)
+        {
+            this.context = context;
+        }
+
         public List<Product> Select()
         {
             var products = context.Products.ToList();

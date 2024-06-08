@@ -5,7 +5,12 @@ namespace AccountShop.Areas.Admin.DataLayer
 {
     public class VariantDAO
     {
-         AccountShopContext context = DatabaseInstance.GetInstance();
+         AccountShopContext context;
+        public VariantDAO(AccountShopContext _context)
+        {
+            this.context = _context;    
+        }
+
         public List<Models.Variant> Select ()
         {
             return context.Variants.ToList();

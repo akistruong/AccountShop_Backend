@@ -1,6 +1,7 @@
 ﻿using AccountShop.Areas.Admin.DataLayer;
 using AccountShop.Areas.Admin.Interfaces;
 using AccountShop.Helper;
+using AccountShop.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace AccountShop.Areas.Admin.Business_Layer
@@ -10,9 +11,9 @@ namespace AccountShop.Areas.Admin.Business_Layer
         ProductDAO productDAO;
         ImageDAO imageDAO;
         FileManager fileManager;    
-        public FileBUS() {
-            productDAO = new ProductDAO();
-            imageDAO = new ImageDAO();
+        public FileBUS(AccountShopContext context) {
+            productDAO = new ProductDAO(context);
+            imageDAO = new ImageDAO(context);
             fileManager = new FileManager();    
         }
         public async Task<bool> UploadProductImage(IFormFile file, string productID)

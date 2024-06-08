@@ -5,7 +5,13 @@ namespace AccountShop.Areas.Admin.DataLayer
 {
     public class UserDAO
     {
-        AccountShopContext context = DatabaseInstance.GetInstance();
+        AccountShopContext context;
+
+        public UserDAO(AccountShopContext context)
+        {
+            this.context = context;
+        }
+
         public List<Models.TblUser> Select()
         { 
             return context.TblUsers.ToList();   

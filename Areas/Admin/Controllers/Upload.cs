@@ -1,4 +1,5 @@
 ﻿using AccountShop.Areas.Admin.Business_Layer;
+using AccountShop.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +10,9 @@ namespace AccountShop.Areas.Admin.Controllers
     public class Upload : ControllerBase
     {
         FileBUS uploadBUS;
-        public Upload()
+        public Upload(AccountShopContext context)
         {
-            uploadBUS = new FileBUS();    
+            uploadBUS = new FileBUS(context);    
         }
         [HttpPost("UploadProductImage/{productID}")]
         public async Task<IActionResult> UploadProductImage(IFormFile file,string productID)
