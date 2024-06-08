@@ -5,7 +5,13 @@ namespace AccountShop.Areas.Admin.DataLayer
 {
     public class CouponDAO
     {
-        AccountShopContext context = DatabaseInstance.GetInstance();
+        AccountShopContext context;
+
+        public CouponDAO(AccountShopContext context)
+        {
+            this.context = context;
+        }
+
         public List<Models.Coupon> Select()
         {
             return context.Coupons.ToList();    

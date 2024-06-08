@@ -12,8 +12,8 @@ namespace AccountShop.Areas.Admin.Business_Layer
     public class AuthenticationBUS : IAuthentication
     {
         UserDAO UserDAO;
-        public AuthenticationBUS() { 
-            UserDAO = new UserDAO();    
+        public AuthenticationBUS(AccountShopContext context) { 
+            UserDAO = new UserDAO(context);    
         }
         [Authorize]
         public TblUser GetUser(TblUser user)

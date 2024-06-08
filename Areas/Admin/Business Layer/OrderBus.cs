@@ -7,8 +7,9 @@ namespace AccountShop.Areas.Admin.Business_Layer
     public class OrderBus : IOrder
     {
         OrderDAO orderDAO;
-        public OrderBus() {
-            orderDAO = new OrderDAO(); 
+       
+        public OrderBus(AccountShopContext context) {
+            orderDAO = new OrderDAO(context); 
                 }   
         public TblOrder CreateOrder(TblOrder order)
         {

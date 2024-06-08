@@ -7,8 +7,8 @@ namespace AccountShop.Areas.Admin.Business_Layer
     public class ImageBUS : IImage
     {
         ImageDAO imageDAO;
-        public ImageBUS() {
-            imageDAO = new ImageDAO();  
+        public ImageBUS(AccountShopContext context) {
+            imageDAO = new ImageDAO(context);  
         }   
         public bool Delete(int id)
         {

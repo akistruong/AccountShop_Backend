@@ -7,8 +7,9 @@ namespace AccountShop.Areas.Admin.Business_Layer
     public class PaymentMethodBUS : IPaymentMethod
     {
         PaymentMethodDAO paymentMehodDAO;
-        public PaymentMethodBUS() { 
-            paymentMehodDAO = new PaymentMethodDAO();   
+        
+        public PaymentMethodBUS(AccountShopContext context) { 
+            paymentMehodDAO = new PaymentMethodDAO(context);   
         }   
         public bool Delete(int id)
         {

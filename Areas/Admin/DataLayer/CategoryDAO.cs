@@ -5,7 +5,13 @@ namespace AccountShop.Areas.Admin.DataLayer
 {
     public class CategoryDAO
     {
-        AccountShopContext context = DatabaseInstance.GetInstance();
+        AccountShopContext context;
+
+        public CategoryDAO(AccountShopContext context)
+        {
+            this.context = context;
+        }
+
         public List<Category> Select()
         {
             var categories = context.Categories.ToList();

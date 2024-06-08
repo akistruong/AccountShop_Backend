@@ -1,4 +1,5 @@
 ﻿using AccountShop.Areas.Admin.Business_Layer;
+using AccountShop.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +9,10 @@ namespace AccountShop.Areas.Admin.Controllers
     [ApiController]
     public class User : ControllerBase
     {
+
         UserBUS UserBUS;
-        public User() {
-            UserBUS = new UserBUS();    
+        public User(AccountShopContext context) {
+            UserBUS = new UserBUS(context);    
         }
         [HttpGet]
         public IActionResult Get()

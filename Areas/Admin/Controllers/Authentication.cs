@@ -11,9 +11,9 @@ namespace AccountShop.Areas.Admin.Controllers
     public class Authentication : ControllerBase
     {
         AuthenticationBUS AuthenticationBUS;
-        public Authentication()
+        public Authentication(AccountShopContext context)
         {
-            AuthenticationBUS = new AuthenticationBUS();    
+            AuthenticationBUS = new AuthenticationBUS(context);    
         }
         [HttpGet]
         [Authorize]

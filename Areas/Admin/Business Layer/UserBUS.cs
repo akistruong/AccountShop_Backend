@@ -7,8 +7,11 @@ namespace AccountShop.Areas.Admin.Business_Layer
     public class UserBUS : IUser
     {
         UserDAO userDAO;
-        public UserBUS() {
-            userDAO = new UserDAO();
+        AccountShopContext context;
+
+        public UserBUS(AccountShopContext context)
+        {
+            userDAO = new UserDAO(context);
         }
 
         public bool Delete(string id)

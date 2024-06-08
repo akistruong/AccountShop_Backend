@@ -12,9 +12,9 @@ namespace AccountShop.Areas.Admin.Controllers
     public class PaymentMethod : Controller
     {
         PaymentMethodBUS paymentMethodBUS;
-        public PaymentMethod()
+        public PaymentMethod(AccountShopContext context)
         {
-            paymentMethodBUS = new PaymentMethodBUS();
+            paymentMethodBUS = new PaymentMethodBUS(context);
         }
         [HttpGet]
         public IActionResult Get()

@@ -5,7 +5,13 @@ namespace AccountShop.Areas.Admin.DataLayer
 {
     public class OrderDAO
     {
-        AccountShopContext context = DatabaseInstance.GetInstance();
+        AccountShopContext context;
+
+        public OrderDAO(AccountShopContext context)
+        {
+            this.context = context;
+        }
+
         public List<Models.TblOrder> Select()
         {
             return context.TblOrders.ToList();  

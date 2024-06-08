@@ -12,10 +12,9 @@ namespace AccountShop.Areas.Admin.Controllers
     [Route("api/[area]/[controller]")]
     public class Image : ControllerBase
     {
-        AccountShopContext context = DatabaseInstance.GetInstance();
         ImageBUS imageBUS;
-        public Image() {
-            imageBUS = new ImageBUS();
+        public Image(AccountShopContext context) {
+            imageBUS = new ImageBUS(context);
         }
         [HttpGet]
         public IActionResult Get()

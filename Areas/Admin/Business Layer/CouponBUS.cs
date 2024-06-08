@@ -7,8 +7,8 @@ namespace AccountShop.Areas.Admin.Business_Layer
     public class CouponBUS : ICoupon
     {
         CouponDAO couponDAO;
-        public CouponBUS() { 
-            couponDAO = new CouponDAO();    
+        public CouponBUS(AccountShopContext context) { 
+            couponDAO = new CouponDAO(context);    
         }
 
         public bool Delete(string id)

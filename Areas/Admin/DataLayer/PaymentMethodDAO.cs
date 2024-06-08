@@ -5,7 +5,13 @@ namespace AccountShop.Areas.Admin.DataLayer
 {
     public class PaymentMethodDAO
     {
-        AccountShopContext context = DatabaseInstance.GetInstance();
+        AccountShopContext context;
+
+        public PaymentMethodDAO(AccountShopContext context)
+        {
+            this.context = context;
+        }
+
         public List<Models.Paymentmethod> Select()
         {
             return context.Paymentmethods.ToList();

@@ -7,8 +7,9 @@ namespace AccountShop.Areas.Admin.Business_Layer
     public class CategoryBUS : ICategory
     {
         CategoryDAO categoryDAO;
-        public CategoryBUS() { 
-            categoryDAO = new CategoryDAO();    
+
+        public CategoryBUS(AccountShopContext context) { 
+            categoryDAO = new CategoryDAO(context);    
         }    
         public List<Models.Category> Get()
         {

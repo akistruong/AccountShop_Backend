@@ -12,9 +12,9 @@ namespace AccountShop.Areas.Admin.Controllers
     public class Coupon : ControllerBase
     {
         CouponBUS couponBUS;
-        public Coupon()
+        public Coupon(AccountShopContext context)
         {
-            couponBUS = new CouponBUS();    
+            couponBUS = new CouponBUS(context);    
         }
         [HttpGet]
         public IActionResult Get()

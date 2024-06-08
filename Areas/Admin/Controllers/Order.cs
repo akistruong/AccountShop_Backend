@@ -11,8 +11,8 @@ namespace AccountShop.Areas.Admin.Controllers
     public class Order : Controller
     {
         OrderBus orderBUS;
-        public Order() { 
-            orderBUS = new OrderBus();  
+        public Order(AccountShopContext context) { 
+            orderBUS = new OrderBus(context);  
         }  
         [HttpGet]
         public IActionResult Get()

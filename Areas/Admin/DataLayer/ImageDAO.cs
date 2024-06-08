@@ -5,7 +5,13 @@ namespace AccountShop.Areas.Admin.DataLayer
 {
     public class ImageDAO
     {
-        AccountShopContext context = DatabaseInstance.GetInstance();
+        AccountShopContext context;
+
+        public ImageDAO(AccountShopContext context)
+        {
+            this.context = context;
+        }
+
         public List<Models.TblImage> Select()
         {
             return context.TblImages.ToList();
