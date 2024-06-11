@@ -3,6 +3,7 @@ using System;
 using AccountShop.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AccountShop.Migrations
 {
     [DbContext(typeof(AccountShopContext))]
-    partial class AccountShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240611070154_changekey")]
+    partial class changekey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,9 +103,9 @@ namespace AccountShop.Migrations
 
             modelBuilder.Entity("AccountShop.Models.Option", b =>
                 {
-                    b.Property<string>("OptionID")
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                    b.Property<int>("OptionID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
                     b.Property<string>("OptionName")
                         .IsRequired()
@@ -124,13 +127,12 @@ namespace AccountShop.Migrations
 
             modelBuilder.Entity("AccountShop.Models.OptionValue", b =>
                 {
-                    b.Property<string>("OptionValueID")
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                    b.Property<int>("OptionValueID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("OptionID")
-                        .IsRequired()
-                        .HasColumnType("varchar(10)");
+                    b.Property<int>("OptionID")
+                        .HasColumnType("int");
 
                     b.Property<string>("OptionValueName")
                         .IsRequired()
@@ -429,13 +431,18 @@ namespace AccountShop.Migrations
                     b.Property<int>("VariantId")
                         .HasColumnType("int");
 
-                    b.Property<string>("OptionValueID")
-                        .HasColumnType("varchar(10)");
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
-                    b.HasKey("VariantId", "OptionValueID")
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("VariantId")
                         .HasName("PRIMARY");
-
-                    b.HasIndex(new[] { "OptionValueID" }, "IX_optionvalue_attribute_OptionValueID");
 
                     b.HasIndex(new[] { "VariantId" }, "IX_variant_attribute_VariantId");
 
@@ -568,21 +575,12 @@ namespace AccountShop.Migrations
 
             modelBuilder.Entity("AccountShop.Models.VariantAttribute", b =>
                 {
-                    b.HasOne("AccountShop.Models.OptionValue", "OptionValue")
-                        .WithMany("VariantAttributes")
-                        .HasForeignKey("OptionValueID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_attribute_optionvalue");
-
                     b.HasOne("AccountShop.Models.Variant", "Variant")
                         .WithMany("VariantAttributes")
                         .HasForeignKey("VariantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_attribute_variant");
-
-                    b.Navigation("OptionValue");
 
                     b.Navigation("Variant");
                 });
@@ -602,11 +600,6 @@ namespace AccountShop.Migrations
             modelBuilder.Entity("AccountShop.Models.Option", b =>
                 {
                     b.Navigation("OptionValues");
-                });
-
-            modelBuilder.Entity("AccountShop.Models.OptionValue", b =>
-                {
-                    b.Navigation("VariantAttributes");
                 });
 
             modelBuilder.Entity("AccountShop.Models.Paymentmethod", b =>

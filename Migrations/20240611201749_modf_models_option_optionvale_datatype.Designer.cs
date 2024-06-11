@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AccountShop.Migrations
 {
     [DbContext(typeof(AccountShopContext))]
-    [Migration("20240611064035_changePKTbl_Attreibute")]
-    partial class changePKTbl_Attreibute
+    [Migration("20240611201749_modf_models_option_optionvale_datatype")]
+    partial class modf_models_option_optionvale_datatype
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,9 +103,9 @@ namespace AccountShop.Migrations
 
             modelBuilder.Entity("AccountShop.Models.Option", b =>
                 {
-                    b.Property<int>("OptionID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("OptionID")
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
 
                     b.Property<string>("OptionName")
                         .IsRequired()
@@ -127,12 +127,13 @@ namespace AccountShop.Migrations
 
             modelBuilder.Entity("AccountShop.Models.OptionValue", b =>
                 {
-                    b.Property<int>("OptionValueID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("OptionValueID")
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
 
-                    b.Property<int>("OptionID")
-                        .HasColumnType("int");
+                    b.Property<string>("OptionID")
+                        .IsRequired()
+                        .HasColumnType("varchar(10)");
 
                     b.Property<string>("OptionValueName")
                         .IsRequired()
@@ -431,8 +432,8 @@ namespace AccountShop.Migrations
                     b.Property<int>("VariantId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OptionValueID")
-                        .HasColumnType("int");
+                    b.Property<string>("OptionValueID")
+                        .HasColumnType("varchar(10)");
 
                     b.HasKey("VariantId", "OptionValueID")
                         .HasName("PRIMARY");
@@ -472,8 +473,7 @@ namespace AccountShop.Migrations
                         .WithMany("OptionValues")
                         .HasForeignKey("OptionID")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_optionvalue_option");
+                        .IsRequired();
 
                     b.Navigation("Option");
                 });
@@ -571,10 +571,11 @@ namespace AccountShop.Migrations
             modelBuilder.Entity("AccountShop.Models.VariantAttribute", b =>
                 {
                     b.HasOne("AccountShop.Models.OptionValue", "OptionValue")
-                        .WithMany()
+                        .WithMany("VariantAttributes")
                         .HasForeignKey("OptionValueID")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_attribute_optionvalue");
 
                     b.HasOne("AccountShop.Models.Variant", "Variant")
                         .WithMany("VariantAttributes")
@@ -603,6 +604,11 @@ namespace AccountShop.Migrations
             modelBuilder.Entity("AccountShop.Models.Option", b =>
                 {
                     b.Navigation("OptionValues");
+                });
+
+            modelBuilder.Entity("AccountShop.Models.OptionValue", b =>
+                {
+                    b.Navigation("VariantAttributes");
                 });
 
             modelBuilder.Entity("AccountShop.Models.Paymentmethod", b =>
