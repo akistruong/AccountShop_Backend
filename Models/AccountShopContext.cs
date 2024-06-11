@@ -33,6 +33,8 @@ public partial class AccountShopContext : DbContext
 
     public virtual DbSet<TblUser> TblUsers { get; set; }
 
+    public virtual DbSet<Option> Options { get; set; }
+    public virtual DbSet<OptionValue> OptionValues { get; set; }
     public virtual DbSet<Variant> Variants { get; set; }
 
     public virtual DbSet<VariantAttribute> VariantAttributes { get; set; }
@@ -43,6 +45,22 @@ public partial class AccountShopContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Option>(entity =>
+        {
+            entity.HasKey(e => e.OptionID).HasName("PRIMARY");
+            entity.Property(e => e.OptionName).HasColumnName("option_name").HasMaxLength(50);
+            entity.HasOne(d => d.Product).WithMany(p => p.Options)
+               .HasForeignKey(d => d.ProductID)
+               .HasConstraintName("fk_option_product");
+        });
+        modelBuilder.Entity<OptionValue>(entity =>
+        {
+            entity.HasKey(e => e.OptionValueID).HasName("PRIMARY");
+            entity.Property(e => e.OptionValueName).HasColumnName("optionvalue_name").HasMaxLength(50);
+            entity.HasOne(d => d.Option).WithMany(p => p.OptionValues)
+               .HasForeignKey(d => d.OptionID)
+               .HasConstraintName("fk_optionvalue_option");
+        });
         modelBuilder.Entity<Category>(entity =>
         {
             entity.HasKey(e => e.CategoryId).HasName("PRIMARY");

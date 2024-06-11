@@ -32,4 +32,5 @@ public partial class Product
     public virtual ICollection<TblImage> TblImages { get; set; } = new List<TblImage>();
 
     public virtual ICollection<Variant> Variants { get; set; } = new List<Variant>();
+    public virtual ICollection<Option> Options { get; set; } = new List<Option>();
 }
