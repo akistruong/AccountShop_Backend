@@ -33,6 +33,8 @@ public partial class AccountShopContext : DbContext
 
     public virtual DbSet<TblUser> TblUsers { get; set; }
 
+    public virtual DbSet<Option> Options { get; set; }
+    public virtual DbSet<OptionValue> OptionValues { get; set; }
     public virtual DbSet<Variant> Variants { get; set; }
 
     public virtual DbSet<VariantAttribute> VariantAttributes { get; set; }
@@ -43,6 +45,25 @@ public partial class AccountShopContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Option>(entity =>
+        {
+            entity.HasKey(e => e.OptionID).HasName("PRIMARY");
+            entity.Property(e => e.OptionName).HasColumnName("option_name").HasMaxLength(50);
+            entity.Property(e => e.OptionID).HasMaxLength(10);
+            entity.HasOne(d => d.Product).WithMany(p => p.Options)
+               .HasForeignKey(d => d.ProductID)
+               .HasConstraintName("fk_option_product");
+        });
+        modelBuilder.Entity<OptionValue>(entity =>
+        {
+            entity.HasKey(e => e.OptionValueID).HasName("PRIMARY");
+            entity.Property(e => e.OptionValueName).HasColumnName("optionvalue_name").HasMaxLength(50);
+            entity.Property(e => e.OptionValueID).HasMaxLength(10);
+
+            entity.HasOne(d => d.Option).WithMany(p => p.OptionValues)
+               .HasForeignKey(d => d.OptionID)
+               .HasConstraintName("fk_optionvalue_option");
+        });
         modelBuilder.Entity<Category>(entity =>
         {
             entity.HasKey(e => e.CategoryId).HasName("PRIMARY");
@@ -330,20 +351,22 @@ public partial class AccountShopContext : DbContext
 
         modelBuilder.Entity<VariantAttribute>(entity =>
         {
-            entity.HasKey(e => e.AttributeId).HasName("PRIMARY");
+            entity.HasKey(e => new { e.VariantId ,e.OptionValueID}).HasName("PRIMARY");
 
             entity.ToTable("variant_attribute");
 
             entity.HasIndex(e => e.VariantId, "IX_variant_attribute_VariantId");
 
-            entity.HasIndex(e => e.AttributeId, "idx_attribute");
+            entity.HasIndex(e => e.OptionValueID, "IX_optionvalue_attribute_OptionValueID");
 
-            entity.Property(e => e.Key).HasMaxLength(50);
-            entity.Property(e => e.Value).HasMaxLength(50);
 
             entity.HasOne(d => d.Variant).WithMany(p => p.VariantAttributes)
                 .HasForeignKey(d => d.VariantId)
                 .HasConstraintName("fk_attribute_variant");
+
+            entity.HasOne(d => d.OptionValue).WithMany(p => p.VariantAttributes)
+                .HasForeignKey(d => d.OptionValueID)
+                .HasConstraintName("fk_attribute_optionvalue");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -5,13 +5,9 @@ namespace AccountShop.Models;
 
 public partial class VariantAttribute
 {
-    public int AttributeId { get; set; }
-
-    public string Key { get; set; } = null!;
-
-    public string Value { get; set; } = null!;
-
+    public string OptionValueID { get; set; }
     public int VariantId { get; set; }
 
-    public virtual Variant Variant { get; set; } = null!;
+    public virtual Variant? Variant { get; set; } = null!;
+    public virtual OptionValue? OptionValue { get; set; } = null!;
 }

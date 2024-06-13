@@ -3,6 +3,7 @@ using System;
 using AccountShop.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AccountShop.Migrations
 {
     [DbContext(typeof(AccountShopContext))]
-    partial class AccountShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240611201749_modf_models_option_optionvale_datatype")]
+    partial class modf_models_option_optionvale_datatype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -470,8 +473,7 @@ namespace AccountShop.Migrations
                         .WithMany("OptionValues")
                         .HasForeignKey("OptionID")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_optionvalue_option");
+                        .IsRequired();
 
                     b.Navigation("Option");
                 });
