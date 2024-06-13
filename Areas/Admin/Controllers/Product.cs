@@ -15,10 +15,17 @@ namespace AccountShop.Areas.Admin.Controllers
             _productBUS = new ProductBUS(context); 
         }
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Get()
         {
 
             var products = _productBUS.GetAllProducts();
+            return Ok(products);
+        }
+        [HttpGet("{id}")]
+        public IActionResult Get(string id)
+        {
+
+            var products = _productBUS.GetProductById(id);
             return Ok(products);
         }
         [HttpPost]

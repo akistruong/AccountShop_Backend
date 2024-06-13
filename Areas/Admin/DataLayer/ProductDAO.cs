@@ -20,7 +20,7 @@ namespace AccountShop.Areas.Admin.DataLayer
         }
         public Product SelectByID(string id)
         {
-            var product = context.Products.FirstOrDefault(x => x.ProductId == id);
+            var product = context.Products.Include(x=>x.Variants).FirstOrDefault(x => x.ProductId == id);
             return product;
         }
         public Product Insert(Product product)

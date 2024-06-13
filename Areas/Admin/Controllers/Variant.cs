@@ -33,6 +33,12 @@ namespace AccountShop.Areas.Admin.Controllers
             var variant = variantBUS.GetByProduct(productID);
             return variant != null ? Ok(variant) : NotFound();
         }
+        [HttpPost("GetByOptionValueID")]
+        public IActionResult GetByProduct(List<string> ids)
+        {
+            var variant = variantBUS.GetVariantByOptionValue(ids);
+            return variant != null ? Ok(variant) : NotFound();
+        }
         [HttpPost]
         public IActionResult Post(Models.Variant variant)
         {
