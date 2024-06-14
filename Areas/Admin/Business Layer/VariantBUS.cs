@@ -15,6 +15,10 @@ namespace AccountShop.Areas.Admin.Business_Layer
         {
             return variantDAO.Delete(id);
         }
+        public Models.Variant GetVariantByOptionValue(List<string> ids)
+        {
+            return variantDAO.SelectVariantByAttribute(ids);    
+        }
         public List<Variant> Get()
         {
             return variantDAO.Select();

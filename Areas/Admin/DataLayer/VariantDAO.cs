@@ -1,5 +1,6 @@
 ﻿using AccountShop.Helper;
 using AccountShop.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AccountShop.Areas.Admin.DataLayer
 {
@@ -10,7 +11,12 @@ namespace AccountShop.Areas.Admin.DataLayer
         {
             this.context = _context;    
         }
-
+        public Models.Variant SelectVariantByAttribute(List<string> valuesID)
+        {
+            var variant = context.Variants.Include(x => x.VariantAttributes)
+                .FirstOrDefault(x => x.VariantAttributes.All(x => valuesID.Contains(x.OptionValueID)));
+            return variant;
+        }
         public List<Models.Variant> Select ()
         {
             return context.Variants.ToList();
