@@ -25,4 +25,5 @@ public partial class Variant
 
     public virtual ICollection<VariantAttribute> VariantAttributes { get; set; } = new List<VariantAttribute>();
     public virtual ICollection<Variant> Children { get; set; } = new List<Variant>();
+    public virtual ICollection<TblImage> Images { get; set; } = new List<TblImage>();
 }

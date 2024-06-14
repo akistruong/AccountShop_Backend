@@ -237,6 +237,10 @@ public partial class AccountShopContext : DbContext
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("fk_image_product");
+            entity.HasOne(d => d.Variant).WithMany(p => p.Images)
+               .HasForeignKey(d => d.VariantId)
+               .OnDelete(DeleteBehavior.Cascade)
+               .HasConstraintName("fk_image_variant");
         });
 
         modelBuilder.Entity<TblOrder>(entity =>
@@ -347,6 +351,7 @@ public partial class AccountShopContext : DbContext
                .HasForeignKey(d => d.VariantRootID)
                .OnDelete(DeleteBehavior.Cascade)
                .HasConstraintName("fk_variant_children");
+           
         });
 
         modelBuilder.Entity<VariantAttribute>(entity =>
