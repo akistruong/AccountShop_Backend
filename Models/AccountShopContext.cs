@@ -36,6 +36,8 @@ public partial class AccountShopContext : DbContext
     public virtual DbSet<Option> Options { get; set; }
     public virtual DbSet<OptionValue> OptionValues { get; set; }
     public virtual DbSet<Variant> Variants { get; set; }
+    public virtual DbSet<Branch> Branches { get; set; }
+    public virtual DbSet<Iventory> Iventories { get; set; }
 
     public virtual DbSet<VariantAttribute> VariantAttributes { get; set; }
 
@@ -45,6 +47,24 @@ public partial class AccountShopContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+     
+        modelBuilder.Entity<Branch>(entity =>
+        {
+            entity.HasKey(e => e.BranchID);
+            entity.Property(e => e.BranchID).ValueGeneratedOnAdd();
+            entity.Property(e => e.BranchName).HasColumnType("varchar(50)");
+            entity.Property(e => e.BranchDsc).HasColumnType("text");
+        });
+        modelBuilder.Entity<Iventory>(entity =>
+        {
+            entity.HasKey(e => new { e.ProductID, e.BranchID });
+            entity.HasOne(d => d.Product).WithMany(p => p.Iventories)
+             .HasForeignKey(d => d.ProductID)
+             .HasConstraintName("fk_Iventory_product");
+            entity.HasOne(d => d.Branch).WithMany(p => p.Iventories)
+            .HasForeignKey(d => d.BranchID)
+            .HasConstraintName("fk_Iventory_branch");
+        });
         modelBuilder.Entity<Option>(entity =>
         {
             entity.HasKey(e => e.OptionID).HasName("PRIMARY");
