@@ -1,6 +1,26 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\wwwroot\\source\\products\\images\\8657231940\\1.png",
+      "PackagePath": "staticwebassets\\source\\products\\images\\8657231940\\1.png"
+    },
+    {
+      "Id": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\wwwroot\\source\\products\\images\\8657231940\\air-jordan-1-zoom-cmft-2-shoes-nX8Qqx (1).jpg",
+      "PackagePath": "staticwebassets\\source\\products\\images\\8657231940\\air-jordan-1-zoom-cmft-2-shoes-nX8Qqx (1).jpg"
+    },
+    {
+      "Id": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\wwwroot\\source\\products\\images\\8657231940\\air-jordan-1-zoom-cmft-2-shoes-nX8Qqx (2).jpg",
+      "PackagePath": "staticwebassets\\source\\products\\images\\8657231940\\air-jordan-1-zoom-cmft-2-shoes-nX8Qqx (2).jpg"
+    },
+    {
+      "Id": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\wwwroot\\source\\products\\images\\8657231940\\air-jordan-1-zoom-cmft-2-shoes-nX8Qqx (3).jpg",
+      "PackagePath": "staticwebassets\\source\\products\\images\\8657231940\\air-jordan-1-zoom-cmft-2-shoes-nX8Qqx (3).jpg"
+    },
+    {
+      "Id": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\wwwroot\\source\\products\\images\\8657231940\\air-jordan-1-zoom-cmft-2-shoes-nX8Qqx (4).jpg",
+      "PackagePath": "staticwebassets\\source\\products\\images\\8657231940\\air-jordan-1-zoom-cmft-2-shoes-nX8Qqx (4).jpg"
+    },
+    {
       "Id": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\wwwroot\\source\\products\\images\\SP01\\441283020_2108927076159260_5514583331457144250_n.jpg",
       "PackagePath": "staticwebassets\\source\\products\\images\\SP01\\441283020_2108927076159260_5514583331457144250_n.jpg"
     },

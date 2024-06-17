@@ -33,4 +33,5 @@ public partial class Product
 
     public virtual ICollection<Variant> Variants { get; set; } = new List<Variant>();
     public virtual ICollection<Option> Options { get; set; } = new List<Option>();
+    public virtual ICollection<Iventory> Iventories { get; set; } = new List<Iventory>();
 }
