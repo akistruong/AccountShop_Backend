@@ -19,7 +19,11 @@ namespace AccountShop.Areas.Admin.Controllers
         {
 
             var products = _productBUS.GetAllProducts();
-            return Ok(products);
+            var response = new Response();
+            response.code = 200;
+            response.metadata = products;
+            response.message = "success!";
+            return Ok(response);
         }
         [HttpGet("{id}")]
         public IActionResult Get(string id)
