@@ -323,6 +323,7 @@ public partial class AccountShopContext : DbContext
 
             entity.ToTable("tbl_user");
 
+            entity.Property(e => e.LoginMethod).HasDefaultValue("Default").HasMaxLength(30);
             entity.Property(e => e.Username)
                 .HasMaxLength(30)
                 .IsFixedLength()

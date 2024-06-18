@@ -9,16 +9,16 @@ namespace AccountShop.Helper
     public class JwtHelper
     {
             private string secureKey = "$11$gZiyrvDsjDchQJpFpDN1t.UulusuFeizdaMP3cE1Kxu0CLQuunXT6";
-        public string Generate(string id)
+        public string Generate(string userName)
         {
 
             string JWTKey = secureKey;
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTKey));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("$11$gZiyrvDsjDchQJpFpDN1t.UulusuFeizdaMP3cE1Kxu0CLQuunXT6"));
             var signingCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(
                         securityKey, SecurityAlgorithms.HmacSha256Signature);
             var claims = new List<Claim>
            {
-                new Claim(ClaimTypes.NameIdentifier,"abc"),
+                new Claim(ClaimTypes.NameIdentifier,userName),
             };
 
             var token = new JwtSecurityToken(JWTKey,

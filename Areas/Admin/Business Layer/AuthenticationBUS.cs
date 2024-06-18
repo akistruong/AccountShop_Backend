@@ -1,6 +1,9 @@
 ﻿using AccountShop.Areas.Admin.DataLayer;
 using AccountShop.Areas.Admin.Interfaces;
+using AccountShop.Dtos;
 using AccountShop.Helper;
+using AccountShop.Helper.Context;
+using AccountShop.Helper.Interfaces;
 using AccountShop.Models;
 using Microsoft.AspNetCore.Authorization;
 using Org.BouncyCastle.Asn1.Ocsp;
@@ -22,44 +25,36 @@ namespace AccountShop.Areas.Admin.Business_Layer
             return user;
         }
 
-        public Dtos.AuthResponseDto Login(TblUser user)
+        public Response Login(TblUser user)
+        {
+            LoginMethodFactory MethodFactory = new LoginMethodFactory(user.LoginMethod??"");
+            var Method = MethodFactory.createMethod(UserDAO);
+            LoginContext LoginContext = new LoginContext(Method);
+            return LoginContext.Login(user);
+        }
+
+        public Response Register(TblUser user)
         {
             JwtHelper jwt = new JwtHelper();
             var User = UserDAO.Select(user.Username);
-            if (User != null)
+            Response response = new Response();
+            if (User == null)
             {
-            var isPassword = HashHelper.Decode(user.Pwd, User.Pwd);
-                if(isPassword)
-                {
-                    
-                    jwt.Generate(user.Username);
-                }
+             if(user.Pwd!=null)  user.Pwd = HashHelper.Encode(user.Pwd);
+                UserDAO.Insert(user);
+                
+                response.code = 200;
+                response.message = "Register success";
+                response.metadata = jwt.Generate(user.Username); response.metadata = jwt.Generate(user.Username);
+                return response;
             }
-            Dtos.AuthResponseDto response = new Dtos.AuthResponseDto();
-            response.code = "200";
-            response.message = "Login success";
-            response.key = jwt.Generate(user.Username); 
+            
+            response.code = 500;
+            response.message = "Register faild";
+            response.metadata = null;
             return response;
         }
 
-        public Dtos.AuthResponseDto Register(TblUser user)
-        {
-            JwtHelper jwt = new JwtHelper();
-            var User = UserDAO.Select(user.Username);
-            Dtos.AuthResponseDto response = new Dtos.AuthResponseDto();
-            if (User == null)
-            {
-               user.Pwd = HashHelper.Encode(user.Pwd);
-                UserDAO.Insert(user);
-                
-                response.code = "200";
-                response.message = "Login success";
-                response.key = jwt.Generate(user.Username); response.key = jwt.Generate(user.Username);
-                return response;
-            }
-            response.code = "404";
-            response.message = "Login faild";
-            return response;
-        }
+      
     }
 }

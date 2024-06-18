@@ -22,7 +22,7 @@ namespace AccountShop.Areas.Admin.Controllers
         {
             return Ok();
         }
-        [HttpPost]
+        [HttpPost("login")]
         public IActionResult Login(TblUser user)
         {
           var result =  AuthenticationBUS.Login(user);  

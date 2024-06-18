@@ -14,6 +14,7 @@ public partial class TblUser
     public DateTime? UpdatedAt { get; set; }
 
     public string? Email { get; set; }
+    public string? LoginMethod { get; set; } = "Default";
 
     public virtual ICollection<TblOrder> TblOrders { get; set; } = new List<TblOrder>();
 }
