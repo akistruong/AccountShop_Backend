@@ -42,6 +42,7 @@ builder.Services.AddAuthentication(x =>
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSwaggerGen(option =>
 {
     option.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme()

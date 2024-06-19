@@ -11,16 +11,17 @@ namespace AccountShop.Areas.Admin.Controllers
     public class Authentication : ControllerBase
     {
         AuthenticationBUS AuthenticationBUS;
-        public Authentication(AccountShopContext context)
+        public Authentication(AccountShopContext context,IHttpContextAccessor httpContextAccessor)
         {
-            AuthenticationBUS = new AuthenticationBUS(context);    
+            AuthenticationBUS = new AuthenticationBUS(context, httpContextAccessor);    
         }
         [HttpGet]
         [Authorize]
         
         public IActionResult User()
         {
-            return Ok();
+            var user = AuthenticationBUS.GetUser();
+            return Ok(user);
         }
         [HttpPost("login")]
         public IActionResult Login(TblUser user)

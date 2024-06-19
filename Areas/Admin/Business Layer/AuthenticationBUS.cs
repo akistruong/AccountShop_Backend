@@ -1,28 +1,31 @@
 ﻿using AccountShop.Areas.Admin.DataLayer;
 using AccountShop.Areas.Admin.Interfaces;
-using AccountShop.Dtos;
 using AccountShop.Helper;
 using AccountShop.Helper.Context;
-using AccountShop.Helper.Interfaces;
 using AccountShop.Models;
 using Microsoft.AspNetCore.Authorization;
-using Org.BouncyCastle.Asn1.Ocsp;
-using System.Security.Claims;
-
-
 namespace AccountShop.Areas.Admin.Business_Layer
 {
     public class AuthenticationBUS : IAuthentication
     {
         UserDAO UserDAO;
-        public AuthenticationBUS(AccountShopContext context) { 
-            UserDAO = new UserDAO(context);    
+        UserContext _userContext;
+        public AuthenticationBUS(AccountShopContext context,IHttpContextAccessor httpContext)
+        {
+            UserDAO = new UserDAO(context);
+            this._userContext =new UserContext(httpContext);    
         }
         [Authorize]
-        public TblUser GetUser(TblUser user)
+        public Response GetUser()
         {
-            JwtHelper jwt = new JwtHelper();
-            return user;
+            string userID = _userContext.GetNameIdentifier();
+            var user = UserDAO.Select(userID);
+            var userInfo = FieldHelper.GetFieldInfo(new HashSet<string> { "Username" , "Email", "TblOrders"}, user);
+            var response = new Response();
+            response.code = 200;
+            response.message = "";
+            response.metadata = userInfo;   
+            return response;
         }
 
         public Response Login(TblUser user)
