@@ -34,4 +34,5 @@ public partial class Product
     public virtual ICollection<Variant> Variants { get; set; } = new List<Variant>();
     public virtual ICollection<Option> Options { get; set; } = new List<Option>();
     public virtual ICollection<Iventory> Iventories { get; set; } = new List<Iventory>();
+    public virtual ICollection<Coupon_Product> Coupon_Products { get; set; } = new List<Coupon_Product>();
 }

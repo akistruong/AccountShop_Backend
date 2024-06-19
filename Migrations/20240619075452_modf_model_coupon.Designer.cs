@@ -3,6 +3,7 @@ using System;
 using AccountShop.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AccountShop.Migrations
 {
     [DbContext(typeof(AccountShopContext))]
-    partial class AccountShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240619075452_modf_model_coupon")]
+    partial class modf_model_coupon
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,28 +117,10 @@ namespace AccountShop.Migrations
                     b.Property<int>("UsedCount")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Value")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("CouponId")
                         .HasName("PRIMARY");
 
                     b.ToTable("coupon", (string)null);
-                });
-
-            modelBuilder.Entity("AccountShop.Models.Coupon_Product", b =>
-                {
-                    b.Property<string>("CouponID")
-                        .HasColumnType("char(10)");
-
-                    b.Property<string>("ProductID")
-                        .HasColumnType("char(10)");
-
-                    b.HasKey("CouponID", "ProductID");
-
-                    b.HasIndex("ProductID");
-
-                    b.ToTable("Coupon_Products");
                 });
 
             modelBuilder.Entity("AccountShop.Models.Efmigrationshistory", b =>
@@ -538,27 +523,6 @@ namespace AccountShop.Migrations
                     b.Navigation("CategoryRoot");
                 });
 
-            modelBuilder.Entity("AccountShop.Models.Coupon_Product", b =>
-                {
-                    b.HasOne("AccountShop.Models.Coupon", "Coupon")
-                        .WithMany("Coupon_Products")
-                        .HasForeignKey("CouponID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_Coupon_Product_Coupon");
-
-                    b.HasOne("AccountShop.Models.Product", "Product")
-                        .WithMany("Coupon_Products")
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_Coupon_Product_Product");
-
-                    b.Navigation("Coupon");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("AccountShop.Models.Iventory", b =>
                 {
                     b.HasOne("AccountShop.Models.Branch", "Branch")
@@ -737,8 +701,6 @@ namespace AccountShop.Migrations
 
             modelBuilder.Entity("AccountShop.Models.Coupon", b =>
                 {
-                    b.Navigation("Coupon_Products");
-
                     b.Navigation("TblOrders");
                 });
 
@@ -759,8 +721,6 @@ namespace AccountShop.Migrations
 
             modelBuilder.Entity("AccountShop.Models.Product", b =>
                 {
-                    b.Navigation("Coupon_Products");
-
                     b.Navigation("InverseRoot");
 
                     b.Navigation("Iventories");
