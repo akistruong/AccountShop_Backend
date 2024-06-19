@@ -40,6 +40,7 @@ public partial class AccountShopContext : DbContext
     public virtual DbSet<Iventory> Iventories { get; set; }
 
     public virtual DbSet<VariantAttribute> VariantAttributes { get; set; }
+    public virtual DbSet<Coupon_Product> Coupon_Products { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -48,6 +49,16 @@ public partial class AccountShopContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
      
+        modelBuilder.Entity<Coupon_Product>(entity =>
+        {
+            entity.HasKey(e => new {e.CouponID,e.ProductID});
+            entity.HasOne(d => d.Product).WithMany(p => p.Coupon_Products)
+            .HasForeignKey(d => d.ProductID)
+            .HasConstraintName("fk_Coupon_Product_Product");
+            entity.HasOne(d => d.Coupon).WithMany(p => p.Coupon_Products)
+           .HasForeignKey(d => d.CouponID)
+           .HasConstraintName("fk_Coupon_Product_Coupon");
+        });
         modelBuilder.Entity<Branch>(entity =>
         {
             entity.HasKey(e => e.BranchID);

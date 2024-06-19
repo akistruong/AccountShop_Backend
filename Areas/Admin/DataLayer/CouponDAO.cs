@@ -1,5 +1,6 @@
 ﻿using AccountShop.Helper;
 using AccountShop.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AccountShop.Areas.Admin.DataLayer
 {
@@ -19,6 +20,9 @@ namespace AccountShop.Areas.Admin.DataLayer
 
         public Models.Coupon Select(string couponId) {
             return context.Coupons.FirstOrDefault(x => x.CouponId == couponId);
+        } 
+        public Models.Product SelectByProductID(string productID) {
+            return context.Products.Include(x=>x.Coupon_Products).FirstOrDefault(x=>x.ProductId==productID);
         }
         public Models.Coupon Insert(Models.Coupon coupon) { 
             var result = context.Coupons.Add(coupon);
