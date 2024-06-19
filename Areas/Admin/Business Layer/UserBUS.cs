@@ -9,11 +9,12 @@ namespace AccountShop.Areas.Admin.Business_Layer
         UserDAO userDAO;
         AccountShopContext context;
 
+
+
         public UserBUS(AccountShopContext context)
         {
             userDAO = new UserDAO(context);
         }
-
         public bool Delete(string id)
         {
             return userDAO.Delete(id);  

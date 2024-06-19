@@ -2,9 +2,9 @@
 {
     public interface IAuthentication
     {
-        public Dtos.AuthResponseDto Login(Models.TblUser user);
-        public Dtos.AuthResponseDto Register(Models.TblUser user);
-        public Models.TblUser GetUser(Models.TblUser user);
+        public Response Login(Models.TblUser user);
+        public Response Register(Models.TblUser user);
+        public Response GetUser();
 
     }
 }
