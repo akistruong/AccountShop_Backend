@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "3/3kthHbXliZ68sLaarmaLE03trfDuBFGd15//WWvTDavFnnUwCxFhP3cPTrNc5+RUr6UecxoF+tRN1dwZanEg==",
+  "dgSpecHash": "emP/SKjkX7FbQZzjd9izbypT9qFV4cX4mwOHhYFROUb5ucc04uBK7/Wb1fJA+vv/7PsOgOOsr9MmqZhbTem3RA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\AccountShop.csproj",
+  "projectFilePath": "C:\\Users\\LENOVO\\Desktop\\Project\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\AccountShop.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\LENOVO\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\bouncycastle.cryptography\\2.2.1\\bouncycastle.cryptography.2.2.1.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\google.protobuf\\3.25.1\\google.protobuf.3.25.1.nupkg.sha512",
