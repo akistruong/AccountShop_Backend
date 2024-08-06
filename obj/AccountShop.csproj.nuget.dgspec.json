@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\AccountShop.csproj": {}
+    "C:\\Users\\LENOVO\\Desktop\\Project\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\AccountShop.csproj": {}
   },
   "projects": {
-    "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\AccountShop.csproj": {
+    "C:\\Users\\LENOVO\\Desktop\\Project\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\AccountShop.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\AccountShop.csproj",
+        "projectUniqueName": "C:\\Users\\LENOVO\\Desktop\\Project\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\AccountShop.csproj",
         "projectName": "AccountShop",
-        "projectPath": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\AccountShop.csproj",
+        "projectPath": "C:\\Users\\LENOVO\\Desktop\\Project\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\AccountShop.csproj",
         "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LENOVO\\Desktop\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\obj\\",
+        "outputPath": "C:\\Users\\LENOVO\\Desktop\\Project\\AccountShop\\backend\\AccountShop\\AccountShop\\AccountShop\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -45,6 +45,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
