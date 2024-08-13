@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Data;
+using System.Linq.Expressions;
 
 namespace AccountShop.Abtractions.Repositories
 {
@@ -9,6 +10,12 @@ namespace AccountShop.Abtractions.Repositories
     /// <typeparam name="TKey">The type of the key used to identify the entity.</typeparam>
     public interface IGenericRepository<TEntity, TKey>
     {
+        /// <summary>
+        /// Begins a new database transaction asynchronously.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation. The task result contains the database transaction.</returns>
+        Task<IDbTransaction> BeginTransactionAsync();
+
         /// <summary>
         /// Finds an entity asynchronously by its unique identifier.
         /// </summary>

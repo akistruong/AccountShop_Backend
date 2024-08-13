@@ -25,20 +25,20 @@
       "PackagePath": "staticwebassets\\source\\products\\images\\SP01\\441283020_2108927076159260_5514583331457144250_n.jpg"
     },
     {
-      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.AccountShop.Microsoft.AspNetCore.StaticWebAssets.props",
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.Shop_Dev.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
     {
-      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.AccountShop.props",
-      "PackagePath": "build\\AccountShop.props"
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.Shop_Dev.props",
+      "PackagePath": "build\\Shop_Dev.props"
     },
     {
-      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.AccountShop.props",
-      "PackagePath": "buildMultiTargeting\\AccountShop.props"
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.Shop_Dev.props",
+      "PackagePath": "buildMultiTargeting\\Shop_Dev.props"
     },
     {
-      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.AccountShop.props",
-      "PackagePath": "buildTransitive\\AccountShop.props"
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.Shop_Dev.props",
+      "PackagePath": "buildTransitive\\Shop_Dev.props"
     }
   ],
   "ElementsToRemove": []

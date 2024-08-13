@@ -29,8 +29,6 @@ namespace AccountShop.Entities
 
         public virtual ICollection<Product>? InverseRoot { get; set; } = new List<Product>();
 
-        public virtual ICollection<Image>? TblImages { get; set; } = new List<Image>();
-
         public virtual ICollection<Variant>? Variants { get; set; } = new List<Variant>();
 
         public virtual ICollection<Option>? Options { get; set; } = new List<Option>();

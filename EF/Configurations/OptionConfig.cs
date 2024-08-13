@@ -9,7 +9,7 @@ namespace AccountShop.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<Option> builder)
         {
-            builder.HasKey(e => e.Id).HasName("PRIMARY");
+            builder.HasKey(e => e.Id);
             builder.Property(e => e.OptionName);
             builder.ToTable(TablesName.Option);
             builder.HasOne(d => d.Product).WithMany(p => p.Options)

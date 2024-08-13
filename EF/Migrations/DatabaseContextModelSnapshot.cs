@@ -3,11 +3,12 @@ using System;
 using AccountShop.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace AccountShop.EF.Migrations
+namespace Shop_Dev.EF.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
     partial class DatabaseContextModelSnapshot : ModelSnapshot
@@ -16,58 +17,63 @@ namespace AccountShop.EF.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.19")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("ProductVersion", "7.0.20")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Branch", b =>
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("AccountShop.Entities.Branch", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("BranchDsc")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BranchName")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("CreatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("CreatedAT")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("UpdatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("UpdatedAT")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.ToTable("Branches", (string)null);
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Category", b =>
+            modelBuilder.Entity("AccountShop.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CategoryImage")
                         .HasColumnType("text");
 
                     b.Property<string>("CategoryName")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int?>("CategoryRootId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("CreatedAT")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("UpdatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("UpdatedAT")
+                        .HasColumnType("datetime2");
 
-                    b.HasKey("Id")
-                        .HasName("PRIMARY");
+                    b.HasKey("Id");
 
                     b.HasIndex("CategoryRootId");
 
@@ -76,55 +82,52 @@ namespace AccountShop.EF.Migrations
                     b.ToTable("Categories", (string)null);
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Image", b =>
+            modelBuilder.Entity("AccountShop.Entities.Image", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAT")
-                        .HasColumnType("datetime(6)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedAT")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ImageDsc")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("text");
 
                     b.Property<string>("ProductId")
-                        .HasMaxLength(10)
-                        .HasColumnType("char(10)")
-                        .IsFixedLength();
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<DateTime>("UpdatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("UpdatedAT")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("VariantId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id")
-                        .HasName("PRIMARY");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("VariantId");
-
-                    b.HasIndex(new[] { "ProductId" }, "IDX_imageID");
-
-                    b.HasIndex(new[] { "ImageDsc" }, "IDX_imageName");
 
                     b.ToTable("Images", (string)null);
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Iventory", b =>
+            modelBuilder.Entity("AccountShop.Entities.Iventory", b =>
                 {
                     b.Property<string>("ProductID")
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("BranchID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("CreatedAT")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Id")
                         .HasColumnType("int");
@@ -132,8 +135,8 @@ namespace AccountShop.EF.Migrations
                     b.Property<int>("Qty")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("UpdatedAT")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ProductID", "BranchID");
 
@@ -142,74 +145,74 @@ namespace AccountShop.EF.Migrations
                     b.ToTable("Iventory");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Option", b =>
+            modelBuilder.Entity("AccountShop.Entities.Option", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("nvarchar(30)");
 
-                    b.Property<DateTime>("CreatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("CreatedAT")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("OptionName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductID")
                         .IsRequired()
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<DateTime>("UpdatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("UpdatedAT")
+                        .HasColumnType("datetime2");
 
-                    b.HasKey("Id")
-                        .HasName("PRIMARY");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProductID");
 
                     b.ToTable("Options", (string)null);
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.OptionValue", b =>
+            modelBuilder.Entity("AccountShop.Entities.OptionValue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAT")
-                        .HasColumnType("datetime(6)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedAT")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("OptionID")
                         .IsRequired()
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("OptionValueName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("UpdatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("UpdatedAT")
+                        .HasColumnType("datetime2");
 
-                    b.HasKey("Id")
-                        .HasName("PRIMARY");
+                    b.HasKey("Id");
 
                     b.HasIndex("OptionID");
 
                     b.ToTable("OptionValues", (string)null);
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Order", b =>
+            modelBuilder.Entity("AccountShop.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("CreatedAT")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool?>("Ischeckout")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<decimal?>("OrderPrice")
                         .HasColumnType("decimal(18,2)");
@@ -218,19 +221,18 @@ namespace AccountShop.EF.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool?>("OrderStatus")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<int?>("PaymentMethodId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("UpdatedAT")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("char(20)");
+                        .HasColumnType("nchar(20)");
 
-                    b.HasKey("Id")
-                        .HasName("PRIMARY");
+                    b.HasKey("Id");
 
                     b.HasIndex("PaymentMethodId");
 
@@ -239,10 +241,10 @@ namespace AccountShop.EF.Migrations
                     b.ToTable("Orders", (string)null);
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.OrderDetail", b =>
+            modelBuilder.Entity("AccountShop.Entities.OrderDetail", b =>
                 {
                     b.Property<Guid>("OrderId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("VariantId")
                         .HasColumnType("int");
@@ -255,8 +257,7 @@ namespace AccountShop.EF.Migrations
                     b.Property<int?>("OdtQty")
                         .HasColumnType("int");
 
-                    b.HasKey("OrderId", "VariantId")
-                        .HasName("PRIMARY");
+                    b.HasKey("OrderId", "VariantId");
 
                     b.HasIndex(new[] { "VariantId" }, "IDX_Ordt_variant");
 
@@ -267,67 +268,69 @@ namespace AccountShop.EF.Migrations
                     b.ToTable("OrderDetails", (string)null);
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.PaymentMethod", b =>
+            modelBuilder.Entity("AccountShop.Entities.PaymentMethod", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAT")
-                        .HasColumnType("datetime(6)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedAT")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("MethodDsc")
                         .HasColumnType("text");
 
                     b.Property<string>("MethodName")
                         .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("nvarchar(30)");
 
-                    b.Property<DateTime>("UpdatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("UpdatedAT")
+                        .HasColumnType("datetime2");
 
-                    b.HasKey("Id")
-                        .HasName("PRIMARY");
+                    b.HasKey("Id");
 
                     b.ToTable("PaymentMethods", (string)null);
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Product", b =>
+            modelBuilder.Entity("AccountShop.Entities.Product", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("CreatedAT")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ProductContent")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductDesciption")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductImage")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductName")
+                        .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<decimal?>("ProductPrice")
+                    b.Property<decimal>("ProductPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ProductSlug")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RootId")
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<DateTime>("UpdatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("UpdatedAT")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -338,51 +341,52 @@ namespace AccountShop.EF.Migrations
                     b.ToTable("Products", (string)null);
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.User", b =>
+            modelBuilder.Entity("AccountShop.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(20)
-                        .HasColumnType("char(20)")
+                        .HasColumnType("nchar(20)")
                         .IsFixedLength();
 
-                    b.Property<DateTime>("CreatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("CreatedAT")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Pwd")
                         .HasMaxLength(15)
-                        .HasColumnType("varchar(15)");
+                        .HasColumnType("nvarchar(15)");
 
-                    b.Property<DateTime>("UpdatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("UpdatedAT")
+                        .HasColumnType("datetime2");
 
-                    b.HasKey("Id")
-                        .HasName("PRIMARY");
+                    b.HasKey("Id");
 
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Variant", b =>
+            modelBuilder.Entity("AccountShop.Entities.Variant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAT")
-                        .HasColumnType("datetime(6)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedAT")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ProductId")
                         .IsRequired()
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<DateTime>("UpdatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("UpdatedAT")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("VariantName")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("VariantPrice")
                         .HasColumnType("decimal(18,2)");
@@ -395,7 +399,7 @@ namespace AccountShop.EF.Migrations
 
                     b.Property<string>("VariantSlug")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -406,7 +410,7 @@ namespace AccountShop.EF.Migrations
                     b.ToTable("Variant");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.VariantAttribute", b =>
+            modelBuilder.Entity("AccountShop.Entities.VariantAttribute", b =>
                 {
                     b.Property<int>("VariantId")
                         .HasColumnType("int");
@@ -414,17 +418,16 @@ namespace AccountShop.EF.Migrations
                     b.Property<int>("OptionValueID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("CreatedAT")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedAT")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("UpdatedAT")
+                        .HasColumnType("datetime2");
 
-                    b.HasKey("VariantId", "OptionValueID")
-                        .HasName("PRIMARY");
+                    b.HasKey("VariantId", "OptionValueID");
 
                     b.HasIndex(new[] { "OptionValueID" }, "IX_optionvalue_attribute_OptionValueID");
 
@@ -433,9 +436,9 @@ namespace AccountShop.EF.Migrations
                     b.ToTable("VariantAttributes", (string)null);
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Category", b =>
+            modelBuilder.Entity("AccountShop.Entities.Category", b =>
                 {
-                    b.HasOne("AccountShop.EF.Entities.Category", "CategoryRoot")
+                    b.HasOne("AccountShop.Entities.Category", "CategoryRoot")
                         .WithMany("InverseCategoryRoot")
                         .HasForeignKey("CategoryRootId")
                         .HasConstraintName("fk_category");
@@ -443,15 +446,13 @@ namespace AccountShop.EF.Migrations
                     b.Navigation("CategoryRoot");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Image", b =>
+            modelBuilder.Entity("AccountShop.Entities.Image", b =>
                 {
-                    b.HasOne("AccountShop.EF.Entities.Product", "Product")
-                        .WithMany("TblImages")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("fk_image_product");
+                    b.HasOne("AccountShop.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
 
-                    b.HasOne("AccountShop.EF.Entities.Variant", "Variant")
+                    b.HasOne("AccountShop.Entities.Variant", "Variant")
                         .WithMany("Images")
                         .HasForeignKey("VariantId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -462,16 +463,16 @@ namespace AccountShop.EF.Migrations
                     b.Navigation("Variant");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Iventory", b =>
+            modelBuilder.Entity("AccountShop.Entities.Iventory", b =>
                 {
-                    b.HasOne("AccountShop.EF.Entities.Branch", "Branch")
+                    b.HasOne("AccountShop.Entities.Branch", "Branch")
                         .WithMany("Iventories")
                         .HasForeignKey("BranchID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_Iventory_branch");
 
-                    b.HasOne("AccountShop.EF.Entities.Product", "Product")
+                    b.HasOne("AccountShop.Entities.Product", "Product")
                         .WithMany("Iventories")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -483,9 +484,9 @@ namespace AccountShop.EF.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Option", b =>
+            modelBuilder.Entity("AccountShop.Entities.Option", b =>
                 {
-                    b.HasOne("AccountShop.EF.Entities.Product", "Product")
+                    b.HasOne("AccountShop.Entities.Product", "Product")
                         .WithMany("Options")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -495,9 +496,9 @@ namespace AccountShop.EF.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.OptionValue", b =>
+            modelBuilder.Entity("AccountShop.Entities.OptionValue", b =>
                 {
-                    b.HasOne("AccountShop.EF.Entities.Option", "Option")
+                    b.HasOne("AccountShop.Entities.Option", "Option")
                         .WithMany("OptionValues")
                         .HasForeignKey("OptionID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -507,14 +508,14 @@ namespace AccountShop.EF.Migrations
                     b.Navigation("Option");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Order", b =>
+            modelBuilder.Entity("AccountShop.Entities.Order", b =>
                 {
-                    b.HasOne("AccountShop.EF.Entities.PaymentMethod", "PaymentMethod")
+                    b.HasOne("AccountShop.Entities.PaymentMethod", "PaymentMethod")
                         .WithMany("Orders")
                         .HasForeignKey("PaymentMethodId")
                         .HasConstraintName("fk_order_paymentMethod");
 
-                    b.HasOne("AccountShop.EF.Entities.User", "User")
+                    b.HasOne("AccountShop.Entities.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_order_user");
@@ -524,15 +525,15 @@ namespace AccountShop.EF.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.OrderDetail", b =>
+            modelBuilder.Entity("AccountShop.Entities.OrderDetail", b =>
                 {
-                    b.HasOne("AccountShop.EF.Entities.Order", "Order")
+                    b.HasOne("AccountShop.Entities.Order", "Order")
                         .WithMany("Orderdetails")
                         .HasForeignKey("OrderId")
                         .IsRequired()
                         .HasConstraintName("fk_orderdt_order");
 
-                    b.HasOne("AccountShop.EF.Entities.Variant", "Variant")
+                    b.HasOne("AccountShop.Entities.Variant", "Variant")
                         .WithMany("OrderDetails")
                         .HasForeignKey("VariantId")
                         .IsRequired()
@@ -543,14 +544,16 @@ namespace AccountShop.EF.Migrations
                     b.Navigation("Variant");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Product", b =>
+            modelBuilder.Entity("AccountShop.Entities.Product", b =>
                 {
-                    b.HasOne("AccountShop.EF.Entities.Category", "Category")
+                    b.HasOne("AccountShop.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_product_category");
 
-                    b.HasOne("AccountShop.EF.Entities.Product", "Root")
+                    b.HasOne("AccountShop.Entities.Product", "Root")
                         .WithMany("InverseRoot")
                         .HasForeignKey("RootId")
                         .HasConstraintName("fk_product_root");
@@ -560,15 +563,15 @@ namespace AccountShop.EF.Migrations
                     b.Navigation("Root");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Variant", b =>
+            modelBuilder.Entity("AccountShop.Entities.Variant", b =>
                 {
-                    b.HasOne("AccountShop.EF.Entities.Product", "Product")
+                    b.HasOne("AccountShop.Entities.Product", "Product")
                         .WithMany("Variants")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AccountShop.EF.Entities.Variant", "VariantRoot")
+                    b.HasOne("AccountShop.Entities.Variant", "VariantRoot")
                         .WithMany()
                         .HasForeignKey("VariantRootId");
 
@@ -577,19 +580,19 @@ namespace AccountShop.EF.Migrations
                     b.Navigation("VariantRoot");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.VariantAttribute", b =>
+            modelBuilder.Entity("AccountShop.Entities.VariantAttribute", b =>
                 {
-                    b.HasOne("AccountShop.EF.Entities.OptionValue", "OptionValue")
+                    b.HasOne("AccountShop.Entities.OptionValue", "OptionValue")
                         .WithMany("VariantAttributes")
                         .HasForeignKey("OptionValueID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_attribute_optionvalue");
 
-                    b.HasOne("AccountShop.EF.Entities.Variant", "Variant")
+                    b.HasOne("AccountShop.Entities.Variant", "Variant")
                         .WithMany("VariantAttributes")
                         .HasForeignKey("VariantId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("fk_attribute_variant");
 
@@ -598,39 +601,39 @@ namespace AccountShop.EF.Migrations
                     b.Navigation("Variant");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Branch", b =>
+            modelBuilder.Entity("AccountShop.Entities.Branch", b =>
                 {
                     b.Navigation("Iventories");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Category", b =>
+            modelBuilder.Entity("AccountShop.Entities.Category", b =>
                 {
                     b.Navigation("InverseCategoryRoot");
 
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Option", b =>
+            modelBuilder.Entity("AccountShop.Entities.Option", b =>
                 {
                     b.Navigation("OptionValues");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.OptionValue", b =>
+            modelBuilder.Entity("AccountShop.Entities.OptionValue", b =>
                 {
                     b.Navigation("VariantAttributes");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Order", b =>
+            modelBuilder.Entity("AccountShop.Entities.Order", b =>
                 {
                     b.Navigation("Orderdetails");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.PaymentMethod", b =>
+            modelBuilder.Entity("AccountShop.Entities.PaymentMethod", b =>
                 {
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Product", b =>
+            modelBuilder.Entity("AccountShop.Entities.Product", b =>
                 {
                     b.Navigation("InverseRoot");
 
@@ -638,17 +641,15 @@ namespace AccountShop.EF.Migrations
 
                     b.Navigation("Options");
 
-                    b.Navigation("TblImages");
-
                     b.Navigation("Variants");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.User", b =>
+            modelBuilder.Entity("AccountShop.Entities.User", b =>
                 {
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("AccountShop.EF.Entities.Variant", b =>
+            modelBuilder.Entity("AccountShop.Entities.Variant", b =>
                 {
                     b.Navigation("Images");
 

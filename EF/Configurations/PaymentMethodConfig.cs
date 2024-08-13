@@ -9,7 +9,7 @@ namespace AccountShop.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<PaymentMethod> entity)
         {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
+            entity.HasKey(e => e.Id);
             entity.ToTable(TablesName.PaymentMethod);
 
             entity.Property(e => e.MethodDsc)

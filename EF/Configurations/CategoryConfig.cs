@@ -9,7 +9,7 @@ namespace AccountShop.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.HasKey(e => e.Id).HasName("PRIMARY");
+            builder.HasKey(e => e.Id);
             builder.ToTable(TablesName.Category);
 
             builder.HasIndex(e => e.CategoryName, "idx_category");

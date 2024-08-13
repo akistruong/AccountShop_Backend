@@ -11,7 +11,7 @@ namespace AccountShop.EF
         {
             DbOptions options = new DbOptions();
             configuration.GetSection(DbOptions.ConnectionStrings).Bind(options);
-            services.AddDbContext<DatabaseContext>(option => option.UseMySQL(options.MySQL));
+            services.AddDbContext<DatabaseContext>(option => option.UseSqlServer(options.SQLServer));
             services.RegisterRepository();
             return services;
         }
@@ -19,7 +19,6 @@ namespace AccountShop.EF
         public static IServiceCollection RegisterRepository(this IServiceCollection services)
         {
             services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IProductRepository), typeof(ProductRepository));
             return services;
         }

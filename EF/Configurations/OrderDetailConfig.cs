@@ -9,7 +9,7 @@ namespace AccountShop.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<OrderDetail> builder)
         {
-            builder.HasKey(e => new { e.OrderId, e.VariantId }).HasName("PRIMARY");
+            builder.HasKey(e => new { e.OrderId, e.VariantId });
             builder.ToTable(TablesName.OrderDetail);
             builder.HasIndex(e => e.VariantId, "IDX_Ordt_variant");
             builder.HasIndex(e => e.OrderId, "IX_orderdetail_order_id");
