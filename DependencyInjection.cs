@@ -1,6 +1,4 @@
-﻿using AccountShop.Abtractions.Services.ProductService;
-using AccountShop.Services;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace AccountShop
 {
@@ -8,8 +6,8 @@ namespace AccountShop
     {
         public static IServiceCollection RegisterService(this IServiceCollection services)
         {
-            services.AddScoped(typeof(IProductService), typeof(ProductService));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddMediatR(cfg => { cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()); });
             return services;
         }
     }

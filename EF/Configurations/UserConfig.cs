@@ -9,7 +9,7 @@ namespace AccountShop.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<User> entity)
         {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
+            entity.HasKey(e => e.Id);
             entity.ToTable(TablesName.User);
             entity.Property(e => e.Id)
                 .HasMaxLength(User.IdLength)

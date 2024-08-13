@@ -8,7 +8,7 @@ namespace AccountShop.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<AccountShop.Entities.OptionValue> entity)
         {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
+            entity.HasKey(e => e.Id);
             entity.Property(e => e.OptionValueName);
             entity.ToTable(TablesName.OptionValue);
             entity.HasOne(d => d.Option).WithMany(p => p.OptionValues)

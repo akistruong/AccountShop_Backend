@@ -1,5 +1,6 @@
 ﻿using AccountShop.Abtractions.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Linq.Expressions;
 
 namespace AccountShop.EF.Repositories
@@ -25,6 +26,12 @@ namespace AccountShop.EF.Repositories
 
                 return _entities;
             }
+        }
+
+        public async Task<System.Data.IDbTransaction> BeginTransactionAsync()
+        {
+            var transaction = await _context.Database.BeginTransactionAsync();
+            return transaction.GetDbTransaction();
         }
 
         public void Delete(TEntity entity)
